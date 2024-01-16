@@ -7,4 +7,6 @@ The project
 
 ## Group members
 [Ludvig Järvi](https://github.com/Jaevii)  
-[Anton Follinger](https://github.com/Hundmat)
+[Anton Follinger](https://github.com/Hundmat)   
+[Daniel Hammar](https://github.com/DanielHammar)   
+[Martin Höglund](https://github.com/LarsHajdronKolajder)  
