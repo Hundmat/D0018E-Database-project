@@ -1,0 +1,45 @@
+form{
+    border: 3px solid;
+    border-radius: 3px;
+    width: 100%;
+}
+
+.login_container{
+    padding: 14px 14px;
+    font-size: 2rem;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 20px 10px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid grey;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+button {
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    border-radius: 3px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.forgotPword{
+    font-size: 1.5rem;
+}
+
+.forgotPword:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}

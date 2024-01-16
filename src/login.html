@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/login.css">
     <title>Database project</title>
 </head>
 <body>
@@ -22,7 +23,18 @@
         <div class="home-wrapper">
             <div class="home-intro">
                 <div class="home-intro-content">
-                    <p>Log in!</p>
+                    <form>
+                        <div class="login_container">
+                            <label for="email"><b>E-mail</b></label>
+                            <input type="text" placeholder="E-mail" name="email" required>
+
+                            <label for="pword"><b>Password</b></label>
+                            <input type="password" placeholder="Password" name="pword" required>
+
+                            <button type="submit">Log in</button>
+                            <a class="forgotPword">Forgot your password?</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
