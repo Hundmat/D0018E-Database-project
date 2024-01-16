@@ -1,0 +1,9 @@
+.browse-content{
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 750px;
+    position: absolute;
+    margin-top: 110px;
+    padding: 30px;
+}

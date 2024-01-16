@@ -33,6 +33,8 @@ body::-webkit-scrollbar{
     justify-content: center;
     font-size: 1.6rem;
     z-index: 1000;
+    top: 0;
+    left: 0;
 }
 
 .app-header_container{
@@ -93,7 +95,15 @@ body::-webkit-scrollbar{
     bottom: 200px;
     width: calc(-6.25px + 75%);
     font-size: 4rem;
+}
 
+/*--------------------------------------CONTENT-------------------------------*/
+.content-item{
+    width: 200px;
+    height: 300px;
+    border: 2px solid;
+    display: inline-block;
+    margin: 0;
 }
 
 /*--------------------------------------FOOTER--------------------------------*/
@@ -105,6 +115,8 @@ body::-webkit-scrollbar{
     padding-bottom: 15px;
     left: 0;
     bottom: 0;
+    background-color: #FAF9F6;
+    position: relative;
 }
 
 .app-footer_container{
