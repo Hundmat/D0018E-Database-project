@@ -1,5 +1,7 @@
 import React from 'react'
-
+import '../Home.css'
+import './Login.css'
+import cart from '../../images/shopping-cart.png'
 function Login() {
     return (
         <div>
@@ -9,7 +11,7 @@ function Login() {
             <nav class="app-header_links">
                 <li><a href="browse.html">Browse</a></li>
                 <li><a href="login.html">Log in</a></li>
-                <li><a href="cart.html"><img class="cart" src="images/shopping-cart.png"/></a></li>
+                <li><a href="cart.html"><img class="cart" src={cart}/></a></li>
             </nav>
             </div>
             </header>
