@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/index.css">
-    <link rel="stylesheet" href="stylesheets/browse.css">
-    <title>Database project</title>
-</head>
-<body>
+import React from 'react'
+import '../Home.css'
+import { Link } from 'react-router-dom'
+import './Browse.css'
+import cart from '../../images/shopping-cart.png'
+function Browse() {
+    return (
+    <div>
     <header class="app-header">
         <div class="app-header_container">
             <p class="logo"><a href="index.html">DATABASE PROJECT</a></p>
             <nav class="app-header_links">
-                <li><a href="browse.html">Browse</a></li>
-                <li><a href="login.html">Log in</a></li>
-                <li><a href="cart.html"><img class="cart" src="images/shopping-cart.png"></a></li>
+                <Link to='/browse'>Browse</Link>
+                <Link to='/login'>Login</Link>
+                <Link to='/cart'>
+                <img class="cart" src={cart}/>
+                </Link>
             </nav>
         </div>
     </header>
@@ -47,6 +47,8 @@
             <p><a href="" target="_blank">Link</a></p>
         </div>
     </footer>
+        </div>
+    )
+}
 
-</body>
-</html>
+export default Browse
