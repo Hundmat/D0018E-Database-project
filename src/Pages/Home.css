@@ -1,6 +1,6 @@
 @font-face {
     font-family: appleFont;
-    src: url(../../fonts/Roboto-Light.ttf) ;
+    /* src: url(../../fonts/Roboto-Light.ttf) ; */
 }
 
 *{
@@ -60,11 +60,11 @@ body::-webkit-scrollbar{
     list-style: none;
 }
 
-.app-header_links li{
+.app-header_links a{
     margin-right: 50px;
 }
 
-.app-header_links li:hover{
+.app-header_links a:hover{
     text-decoration: underline;
 }
 

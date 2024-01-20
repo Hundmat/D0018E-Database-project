@@ -1,5 +1,6 @@
 import React from 'react'
 import '../Home.css'
+import { Link } from 'react-router-dom'
 import cart from '../../images/shopping-cart.png'
 
 function Home() {
@@ -9,9 +10,11 @@ function Home() {
         <div class="app-header_container">
             <p class="logo"><a href="#home">DATABASE PROJECT</a></p>
             <nav class="app-header_links">
-                <li><a href="browse.html">Browse</a></li>
-                <li><a href="login.html">Log in</a></li>
-                <li><a href="cart.html"><img class="cart" src={cart}/></a></li>
+            <Link to='/browse'>Browse</Link>
+                <Link to='/login'>Login</Link>
+                <Link to='/cart'>
+                <img class="cart" src={cart}/>
+                </Link>
             </nav>
         </div>
     </header>
