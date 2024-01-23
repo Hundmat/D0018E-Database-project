@@ -103,8 +103,11 @@ body::-webkit-scrollbar{
     width: 200px;
     height: 300px;
     border: 2px solid;
-    display: inline-block;
+    display: block;
     margin: 0;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 /*--------------------------------------FOOTER--------------------------------*/

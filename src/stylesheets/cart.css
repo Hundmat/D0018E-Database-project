@@ -33,3 +33,12 @@
     float: right;
     padding: 5px;
 }
+
+#buy_button{
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    font-size: 2rem;
+    bottom: 0;
+    left: 0;
+}
