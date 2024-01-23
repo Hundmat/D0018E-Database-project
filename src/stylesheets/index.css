@@ -62,6 +62,7 @@ body::-webkit-scrollbar{
 
 .app-header_links li{
     margin-right: 50px;
+    width: 70px;
 }
 
 .app-header_links li:hover{

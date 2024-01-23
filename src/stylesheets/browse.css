@@ -7,3 +7,12 @@
     margin-top: 110px;
     padding: 30px;
 }
+
+#search{
+    margin-right: 140px;
+    width: 300px;
+    border: 2px solid;
+    border-radius: 10px;
+    font-size: 2rem;
+    padding: 5px;
+}
