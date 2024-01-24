@@ -34,6 +34,16 @@
     padding: 5px;
 }
 
+.cart-info input{
+    width: 100%;
+    height: 40px;
+    font-size: 1.2rem;
+}
+
+.cart-info-div{
+    margin-bottom: 5px;
+}
+
 #buy_button{
     margin-top: 10px;
     width: 100%;
