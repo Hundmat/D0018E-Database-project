@@ -7,14 +7,15 @@ import {
 } from "react-router-dom";
 
 import Add from './pages/Add';
-import Books from './pages/Books';
+import Products from './pages/Products';
+import "./style.css";
 
 function App() {
   return (
-    <div>
+    <div className='App'>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Books/>}/>
+          <Route path="/" element={<Products/>}/>
           <Route path="/add" element={<Add/>}/>
         </Routes>
       </BrowserRouter>
