@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend",
-    "dev": "nodemon backend"
+    "start": "nodemon backend.js"
   },
   "keywords": [],
   "author": "",
