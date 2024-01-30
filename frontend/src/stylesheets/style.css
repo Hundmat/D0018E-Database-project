@@ -1,0 +1,11 @@
+textarea, input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.App{
+    height: 100vh;
+    padding: 0px 100px;
+    display: flex;
+}

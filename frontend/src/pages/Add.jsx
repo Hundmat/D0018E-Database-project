@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import "../stylesheets/add.css"
 
 const Add = () => {
   const [product, setProduct] = useState({
@@ -13,6 +16,8 @@ const Add = () => {
     sex: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -20,7 +25,8 @@ const Add = () => {
   const handleClick = async e => {
     e.preventDefault()
     try {
-        await axios.post("http://localhost:8800/products", product)
+        await axios.post("http://localhost:8800/products", product);
+        navigate("/");
     } catch (err) {
         console.log(err)
     }
