@@ -6,9 +6,9 @@ import "../stylesheets/add.css"
 
 const Add = () => {
   const [product, setProduct] = useState({
-    brand: "",
+    idCat: "",
     name: "",
-    desc: "",
+    prodDescription: "",
     price: null,
     stock: 100,
     size: "",
@@ -40,10 +40,10 @@ const Add = () => {
         <h1>Add new product</h1>
 
         <input
-          type="text"
-          placeholder="brand"
+          type="number"
+          placeholder="idCat"
           onChange={handleChange}
-          name="brand"
+          name="idCat"
         />
         <input
           type="text"
@@ -55,7 +55,7 @@ const Add = () => {
           type="text"
           placeholder="description"
           onChange={handleChange}
-          name="desc"
+          name="prodDescription"
           id="desc"
         />
         <input

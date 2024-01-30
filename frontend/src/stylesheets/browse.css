@@ -9,12 +9,12 @@ h2, h3{
     margin-bottom: 30px;
 }
 
-.products{
+.browse-products{
     display: flex;
     flex-wrap: wrap;
 }
 
-.product{
+.browse-product{
     border: 2px solid;
     margin: 0 3px 10px;
     width: 280px;
@@ -26,7 +26,7 @@ h2, h3{
     cursor: pointer;
 }
 
-.product img {
+.browse-product img {
     width: auto;
     height: 400px;
     background-color: darkolivegreen;
