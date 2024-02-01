@@ -26,7 +26,7 @@ const Add = () => {
     e.preventDefault()
     try {
         await axios.post("http://localhost:8800/products", product);
-        navigate("/");
+        navigate("/browse");
     } catch (err) {
         console.log(err)
     }

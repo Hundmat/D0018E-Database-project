@@ -1,0 +1,46 @@
+.home-allt {
+    background-color: rgba(0, 255, 255, 0.344);
+}
+
+.home-container {
+    max-width: 800px;
+    height: 2000px;
+    /* Adjust the max-width as needed */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.recommended-products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.home-product {
+    width: 200px;
+    /* Set a fixed width as needed */
+    border: 1px solid #000000;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.home-product img {
+    max-width: 100%;
+    height: auto;
+}
+
+.add-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    background-color: #4caf50;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}

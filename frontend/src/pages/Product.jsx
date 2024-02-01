@@ -15,7 +15,7 @@ const Product = ({pid, id}) => {
     const handleClick = async e => {  
         e.preventDefault();
         try {
-            await navigate(`/`);
+            await navigate(`/browse`);
         } catch (err) {
             console.log(err);
         }

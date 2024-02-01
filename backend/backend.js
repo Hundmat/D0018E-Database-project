@@ -9,7 +9,7 @@ const app = express();
 const db = mysql2.createConnection({
     host:"localhost",
     user: "root",
-    password: "Databas123",
+    password: "",
     database: "e-commerce"
 });
 
@@ -21,6 +21,8 @@ app.use(cors());
 app.get("/", (req, res) => {
     res.json("This is the backend");
 });
+
+// #region Browse/Product
 
 // Get all products
 app.get("/browse", (req, res) => {
@@ -61,6 +63,39 @@ app.post("/products", (req, res) => {
             return res.json("Product has been added");
         });
 });
+
+// #endregion Browse/Product
+
+// #region Cart
+
+app.post("/cart", (req, res) => {
+    const q = "INSERT INTO  cart (`idCart`,`quantity`,`PID`) VALUES (?)"
+    const values = [
+        req.body.idCart = "123",
+        req.body.quantity = "2",
+        req.body.PID = "456",
+    ]
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err)
+        return res.json("Order has been added")
+    })
+})
+
+// #endregion Cart
+
+app.post("/order", (req, res) => {
+    const q = "INSERT INTO  order (`idOrder`,`Quantity`,`customer_idCustomer`, `product_idProduct`) VALUES (?)"
+    const values = [
+        req.body.idOrder = "123",
+        req.body.Quantity = "FAN VA BRA SIDA",
+        req.body.customer_idCustomer = "456",
+        req.body.product_idProduct = "789",
+    ]
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err)
+        return res.json("Order has been added")
+    })
+})
 
 // Start API
 app.listen(8800, () => {
