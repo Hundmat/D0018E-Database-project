@@ -1,46 +1,89 @@
-.App{
+* {
     scroll-behavior: smooth;
     -ms-overflow-style: none;
-    scrollbar-width: none;  
+  }
+
+.productPage {
+  width: 100%;
+  height: 100vh;
+  min-height: 650px;
+  box-sizing: border-box;
+  padding: 30px 25%;
+  background-color: #151616;
+  color: #dadce1;
 }
 
-.App::-webkit-scrollbar{
-    display: none;
-}
-
-.productPage{
-    width: 100%;
-    min-height: 650px;
-    box-sizing:border-box;
-    padding: 30px;
-}
-
-.browseButton{
-    margin-bottom: 10px;
-    height: 50px;
-    width: 200px;
-}
-
-.product-image{
-    float: left;
-
-    width: 40%;
-    height: 600px;
-    background-color: darkolivegreen;
-}
-
-.product-info{
-    width: 30%;
-    float: right;
-    border: 2px solid;
-}
-
-.product h2, h3, h4, p {
-    margin-bottom: 20px;
+/* Product image */
+.product-image-container {
+  float: left;
+  width: 400px;
+  height: 600px;
 }
 
 .product img {
-    width: 400px;
-    height: 500px;
-    background-color: darkolivegreen;
+  width: 100%;
+  height: 100%;
+  border: 2px solid;
+}
+
+/* Product info */
+.product-info-container {
+  width: 40%;
+  float: right;
+}
+
+.product-info p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.product-info h2 {
+  font-size: 3rem;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.product-size {
+  font-size: 1rem;
+}
+
+.product-buttons-container {
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+}
+
+.product-buttons-container button {
+  background-color: black;
+  color: #dadce1;
+  border-style: none;
+}
+
+.product-buttons-container button:hover {
+  background-color: #dadce1;
+  color: black;
+  border-style: none;
+  cursor: pointer;
+}
+
+.product-cart-button {
+  height: 100%;
+  width: 80%;
+  float: left;
+}
+
+.product-favourite-button {
+  height: 100%;
+  width: 18%;
+  float: right;
+}
+
+.product-stock {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.product-desc {
+  font-size: 1.2rem;
+  word-break: break-all;
 }
