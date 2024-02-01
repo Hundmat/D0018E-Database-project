@@ -9,7 +9,7 @@ const app = express();
 const db = mysql2.createConnection({
     host:"localhost",
     user: "root",
-    password: "",
+    password: "Databas123",
     database: "e-commerce"
 });
 
@@ -21,6 +21,18 @@ app.use(cors());
 app.get("/", (req, res) => {
     res.json("This is the backend");
 });
+
+// #region Home
+
+app.get("/product", (req, res) => {
+    const q = "SELECT * FROM `e-commerce`.product;"
+    db.query(q, (err, data) => {
+        if (err) return res.json(err)
+        return res.json(data)
+    })
+})
+
+// #endregion Home
 
 // #region Browse/Product
 
