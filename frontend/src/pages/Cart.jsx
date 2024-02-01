@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 //import '../stylesheets/cart.css';
 //import test from '../testbild.png';
 
+import Navbar from "../Components/Navbar";
+import Footer from '../Components/Footer';
+import '../stylesheets/navbar.css';
+import '../stylesheets/footer.css';
+
 const Cart = () => {
   const [cart, setCart] = useState([]);
 
@@ -52,6 +57,7 @@ const Cart = () => {
 
   return (
     <div>
+      <Navbar/>
       <h2>Shopping Cart</h2>
 
       {cart.length === 0 ? (
@@ -94,6 +100,7 @@ const Cart = () => {
           </div>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 };

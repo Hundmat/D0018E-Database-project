@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+import Navbar from "../Components/Navbar";
+import Footer from '../Components/Footer';
+import '../stylesheets/navbar.css';
+import '../stylesheets/footer.css';
+
 const Signup = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -49,6 +54,9 @@ const Signup = (props) => {
     
     return (
         <div className={"mainContainer"}>
+
+            <Navbar/>
+
             <div className={"titleContainer"}>
                 <div>Signup</div>
             </div>
@@ -101,6 +109,7 @@ const Signup = (props) => {
                     value={"Sign up"}
                 />
             </div>
+            <Footer/>
         </div>
     );
 };

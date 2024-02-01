@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 import "../stylesheets/product.css";
 
+import Navbar from "../Components/Navbar";
+import Footer from '../Components/Footer';
+import '../stylesheets/navbar.css';
+import '../stylesheets/footer.css';
+
 
 const Product = ({pid, id}) => {
 
@@ -38,25 +43,29 @@ const Product = ({pid, id}) => {
     }, [location])
 
     return (
-        <div className="productPage">
-            <button className="browseButton" onClick={handleClick}>
-                Browse
-            </button>
-            {product.map((p) => (
-                <div className="product" key={p.idProduct}>
-                    <div className="product-image">  
-                        {p.image && <img src={p.image} alt=''/>}
+        <div>
+            <Navbar/>
+            <div className="productPage">
+                <button className="browseButton" onClick={handleClick}>
+                    Browse
+                </button>
+                {product.map((p) => (
+                    <div className="product" key={p.idProduct}>
+                        <div className="product-image">  
+                            {p.image && <img src={p.image} alt=''/>}
+                        </div>
+                        <div className="product-info">
+                            <h2>{p.name}</h2>
+                            <h3>SEK {p.price}</h3>
+                            <h4>{p.size}</h4>
+                            <h4>{p.sex}</h4>
+                            <p>{p.prodDescription}</p>
+                            <h4>Stock: {p.stock}</h4>
+                        </div>
                     </div>
-                    <div className="product-info">
-                        <h2>{p.name}</h2>
-                        <h3>SEK {p.price}</h3>
-                        <h4>{p.size}</h4>
-                        <h4>{p.sex}</h4>
-                        <p>{p.prodDescription}</p>
-                        <h4>Stock: {p.stock}</h4>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
+            <Footer/>
          </div>
     );
 }
