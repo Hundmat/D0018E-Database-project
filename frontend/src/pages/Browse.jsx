@@ -40,12 +40,8 @@ const Browse = () => {
 
     return (
         <div>
-            <Navbar />
+            <Navbar/>
             <div className='browse-container'>
-                <h1>All products</h1>
-                <button className="browse-linkButton">
-                    <Link to="/add">Add product</Link>
-                </button>
                 <div className="browse-products">
                     {products.map((product) => (
                         <div className="browse-product" onClick={handleClick(product.idProduct)} key={product.idProduct}>
@@ -56,7 +52,7 @@ const Browse = () => {
                     ))}
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 }

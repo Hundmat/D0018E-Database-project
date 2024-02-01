@@ -1,12 +1,19 @@
-.browse-container h2, h3{
-    margin: auto;
+.App{
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
 }
 
-.browse-linkButton{
-    width: 150px;
-    height: 50px;
-    text-decoration: none;
-    margin-bottom: 30px;
+.App::-webkit-scrollbar{
+    display: none;
+}
+
+.browse-container {
+    padding: 30px;
+}
+
+.browse-container h2, h3{
+    margin: auto;
 }
 
 .browse-products{

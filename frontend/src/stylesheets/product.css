@@ -1,6 +1,18 @@
+.App{
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+}
+
+.App::-webkit-scrollbar{
+    display: none;
+}
+
 .productPage{
     width: 100%;
-    padding-top: 75px;
+    min-height: 650px;
+    box-sizing:border-box;
+    padding: 30px;
 }
 
 .browseButton{
@@ -9,25 +21,21 @@
     width: 200px;
 }
 
-.product{
-    width: 100%;
-}
-
 .product-image{
     float: left;
 
-    width: 48%;
+    width: 40%;
     height: 600px;
     background-color: darkolivegreen;
 }
 
 .product-info{
+    width: 30%;
     float: right;
-    width: 48%;
+    border: 2px solid;
 }
 
 .product h2, h3, h4, p {
-    margin: auto;
     margin-bottom: 20px;
 }
 
@@ -35,5 +43,4 @@
     width: 400px;
     height: 500px;
     background-color: darkolivegreen;
-    margin: auto;
 }

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router';
-import { useNavigate } from "react-router-dom";
 
 import "../stylesheets/product.css";
 
@@ -14,17 +13,6 @@ import '../stylesheets/footer.css';
 const Product = ({pid, id}) => {
 
     const location = useLocation();
-
-    const navigate = useNavigate();
-
-    const handleClick = async e => {  
-        e.preventDefault();
-        try {
-            await navigate(`/browse`);
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
     const [product, setProduct] = useState([]);
 
@@ -46,9 +34,6 @@ const Product = ({pid, id}) => {
         <div>
             <Navbar/>
             <div className="productPage">
-                <button className="browseButton" onClick={handleClick}>
-                    Browse
-                </button>
                 {product.map((p) => (
                     <div className="product" key={p.idProduct}>
                         <div className="product-image">  
