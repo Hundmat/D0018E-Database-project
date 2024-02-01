@@ -1,8 +1,8 @@
-h2, h3{
+.browse-container h2, h3{
     margin: auto;
 }
 
-.linkButton{
+.browse-linkButton{
     width: 150px;
     height: 50px;
     text-decoration: none;

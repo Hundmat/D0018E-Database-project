@@ -35,8 +35,8 @@ const Add = () => {
   console.log(product);
 
   return (
-    <div className="form-container">
-      <div className="form">
+    <div className="add-form-container">
+      <div className="add-form">
         <h1>Add new product</h1>
 
         <input
@@ -56,7 +56,7 @@ const Add = () => {
           placeholder="description"
           onChange={handleChange}
           name="prodDescription"
-          id="desc"
+          id="add-desc"
         />
         <input
           type="number"

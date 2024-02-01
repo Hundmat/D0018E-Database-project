@@ -34,9 +34,9 @@ const Browse = () => {
     };
 
     return (
-        <div>
+        <div className='browse-container'>
             <h1>All products</h1>
-            <button className="linkButton">
+            <button className="browse-linkButton">
                 <Link to="/add">Add product</Link>
             </button>
             <div className="browse-products">
