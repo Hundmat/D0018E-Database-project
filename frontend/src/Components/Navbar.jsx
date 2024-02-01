@@ -20,8 +20,8 @@ const Navbar = () => {
             <Link className={isActive('/add')} to="/add">
                 Add
             </Link>
-            <Link className={isActive('/update')} to="/update">
-                Update
+            <Link className={isActive('/cart')} to="/cart">
+                Cart
             </Link>
         </div>
     );
