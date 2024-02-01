@@ -1,0 +1,43 @@
+.productPage {
+    width: 100%;
+    padding-top: 75px;
+}
+
+.browseButton {
+    margin-bottom: 10px;
+    height: 50px;
+    width: 200px;
+}
+
+.product {
+    width: 100%;
+    border: none;
+}
+
+.product-image {
+    float: left;
+
+    width: 48%;
+    height: 600px;
+    background-color: darkolivegreen;
+}
+
+.product-info {
+    float: right;
+    width: 48%;
+}
+
+.product h2,
+h3,
+h4,
+p {
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.product img {
+    width: 400px;
+    height: 500px;
+    background-color: darkolivegreen;
+    margin: auto;
+}

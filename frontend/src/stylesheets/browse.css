@@ -1,0 +1,34 @@
+h2,
+h3 {
+    margin: auto;
+}
+
+.linkButton {
+    width: 150px;
+    height: 50px;
+    text-decoration: none;
+    margin-bottom: 30px;
+}
+
+.browse-products {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.browse-product {
+    border: 2px solid;
+    margin: 0 3px 10px;
+    width: 280px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.browse-product img {
+    width: auto;
+    height: 400px;
+    background-color: darkolivegreen;
+}
