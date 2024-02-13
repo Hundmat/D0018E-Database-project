@@ -54,7 +54,7 @@ const Product = ({ pid, id }) => {
             <div className="product-info-container">
               <div className="product-info">
                 <p>Brand</p>
-                <h2>{p.name}</h2>
+                <h1>{p.name}</h1>
                 <p>{p.price} kr</p>
               </div>
               <div className="product-review">
@@ -68,7 +68,7 @@ const Product = ({ pid, id }) => {
                 <button className="product-favourite-button"><CiHeart/></button>
               </div>
               <div className="product-stock">
-                <p>{availability(p.stock)} (stock = {p.stock})</p>
+                <p>{availability(p.stock)}</p>
               </div>
               <div className="product-desc">
                 <p>{p.prodDescription}</p>

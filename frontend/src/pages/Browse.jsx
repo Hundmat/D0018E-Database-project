@@ -21,23 +21,25 @@ const Browse = () => {
   const addFilterCategory = (category) => {
     if(!selectedCategories.includes(category.value)){
       setSelectedCategories(prev => ([...prev, category.value]))
-      console.log("added:", category.value);
     }
   };
 
   // add functionality to only clear a certain category
-  const resetCategory = () => {
-    setSelectedCategories([]);
-  }
+  const resetCategory = (e) => {
+    for (const a in e.removedValues){
+      const target = e.removedValues[a].value;
+      const index = selectedCategories.indexOf(target);
+      selectedCategories.splice(index, 1);
+    }
+    setSelectedCategories(selectedCategories);
+  };
   
-  // add functionality to be able to filter multiple categories at once
+  // add functionality to be able to filter multiple categories at once DONE
   useEffect(() => {
     if(selectedCategories.length === 0){
       setFilteredProductList(products);
-      console.log("default page");
     } else{
-      setFilteredProductList(products.filter((item) => (selectedCategories.includes(item.size))));
-      console.log("filtered page");
+      setFilteredProductList(products.filter(item => selectedCategories.every(att => Object.values(item).includes(att))));
     }
   }, [selectedCategories, products]);
 
@@ -67,26 +69,42 @@ const Browse = () => {
   };
 
   // add functionality to only clear a certain category
-  const handleSelectChange = (selectedOptions) => {
+  const handleSelectChange = (selectedOptions, e) =>{
     if(selectedOptions.length === 0) {
-      resetCategory();
-      console.log("cleared");
+      resetCategory(e);
     } else {
-      console.log("changed:", selectedOptions);
       selectedOptions.forEach(addFilterCategory)
     }
   };
 
-  const sizes = [
-    { label: 'Small', value: 'S' },
-    { label: 'Medium', value: 'M' },
-    { label: 'Large', value: 'L' }
+  const sex = [
+    { label: 'Child', value: 'kid' },
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' }
   ];
 
-  const brands = [
+  const size = [
+    { label: 'Small', value: 'small' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Large', value: 'large' }
+  ];
+
+  const brand = [
     { label: 'Brand1', value: 'B1' },
     { label: 'Brand2', value: 'B2' },
     { label: 'Brand3', value: 'B3' }
+  ];
+
+  const catName = [
+    { label: 'Football', value: 'football' },
+    { label: 'Climbing', value: 'climbing' },
+    { label: 'Running', value: 'running' }
+  ];
+
+  const catType = [
+    { label: 'Shoes', value: 'shoe' },
+    { label: 'Shirt', value: 'shirt' },
+    { label: 'Pants', value: 'pants' }
   ];
 
   return (
@@ -94,8 +112,11 @@ const Browse = () => {
       <Navbar />
       <div className="browse-container">
         <div className="browse-filter">
-          <Select options={sizes} onChange={handleSelectChange} isMulti placeholder="Size" className="browse-select"/>
-          <Select options={brands} onChange={handleSelectChange} isMulti placeholder="Brand" className="browse-select"/>
+          <Select options={sex} onChange={handleSelectChange} isMulti placeholder="Sex" className="browse-select"/>
+          <Select options={size} onChange={handleSelectChange} isMulti placeholder="Size" className="browse-select"/>
+          <Select options={brand} onChange={handleSelectChange} isMulti placeholder="Brand" className="browse-select"/>
+          <Select options={catName} onChange={handleSelectChange} isMulti placeholder="Sport" className="browse-select"/>
+          <Select options={catType} onChange={handleSelectChange} isMulti placeholder="Type" className="browse-select"/>
         </div>
         <div className="browse-products">
           {fileredProductList.map((product) => (
@@ -106,7 +127,7 @@ const Browse = () => {
             >
               {product.image && <img src={product.image} alt="" />}
               <p>Rating</p>
-              <p>Brand</p>
+              <p>{product.sex}</p>
               <h2>{product.name}</h2>
               <p>{product.price} kr</p>
               <p>{product.size}</p>

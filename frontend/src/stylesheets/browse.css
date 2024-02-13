@@ -6,7 +6,7 @@
 .browse-container {
   padding: 30px;
   background-color: #151616;
-  height: 100vh;
+  height: 150vh;
   color: #dadce1;
 }
 
@@ -54,6 +54,14 @@
   justify-content: center;
 
   cursor: pointer;
+}
+
+.browse-product h2 {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 
 .browse-product img {
