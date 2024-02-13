@@ -26,19 +26,19 @@ const Browse = () => {
 
   // add functionality to only clear a certain category
   const resetCategory = (e) => {
-    for (const a in e.removedValues){
-      const target = e.removedValues[a].value;
-      const index = selectedCategories.indexOf(target);
-      selectedCategories.splice(index, 1);
+    const temp = e.removedValues;
+    for (const t in temp){
+      setSelectedCategories(selectedCategories.filter( c => c !== temp[t].value));
     }
-    setSelectedCategories(selectedCategories);
   };
   
   // add functionality to be able to filter multiple categories at once DONE
   useEffect(() => {
     if(selectedCategories.length === 0){
+      console.log("selected categories: ", selectedCategories);
       setFilteredProductList(products);
     } else{
+      console.log("selected categories: ", selectedCategories);
       setFilteredProductList(products.filter(item => selectedCategories.every(att => Object.values(item).includes(att))));
     }
   }, [selectedCategories, products]);
