@@ -16,28 +16,35 @@ const Add = () => {
         sex: "",
         size: "",
         stock: 100,
-        productRelation: "" // Add the missing input
+        productRelation: "", // Add the missing input
+        idProduct: ""
     });
     
     const [category, setCategory] = useState({
         nameCat: "",
         brand: "",
-        typeCat: ""
+        typeCat: "",
+        productRelation: ""
     });
     const navigate = useNavigate()
 
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8800/newProduct", product);
-            await axios.post("http://localhost:8800/newCat", category);
-            navigate("/newProduct");
+            console.log(await axios.post("http://localhost:8800/newProduct", product));
+            console.log(await axios.post("http://localhost:8800/newCat", category));
+            console.log(category)
+            
+            navigate("/product");
         } catch (err) {
             console.log(err);
         }
     };
 
     const handleChange = (e) => {
+        if (e.target.name === "productRelation") {
+            setCategory((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        }
         setProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
@@ -54,7 +61,12 @@ const Add = () => {
             
             <div className="form">
                 <h1>Add new product</h1>
-
+                <input
+                    type="text"
+                    placeholder="article number"
+                    onChange={handleChange}
+                    name="idProduct"
+                />
                 <input
                     type="text"
                     placeholder="brand"

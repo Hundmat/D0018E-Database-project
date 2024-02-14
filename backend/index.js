@@ -5,9 +5,7 @@ import cors from "cors"
 const app = express()
 
 const db = mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"tooraf!",
+    //add your database connection here
     database:"e-commerce"
 });
 
@@ -18,8 +16,23 @@ app.get('/', (req, res) => {
     res.json('Hello This is the backend!')
 });  
 
-app.get("/books",(req,res)=>{
-    const q = "SELECT * FROM books";
+app.post("/products",(req,res)=>{
+    
+
+    const q = "SELECT * FROM product WHERE idProduct = (?)";
+    console.log(req.body.id)
+    const values = [
+        req.body.id
+    ]
+
+    db.query(q,[values], (err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    });
+});
+
+app.get("/cart",(req,res)=>{
+    const q = "SELECT * FROM cart";
     db.query(q,(err,data)=>{
         if(err) return res.json(err);
         return res.json(data);
@@ -44,8 +57,9 @@ app.post("/books",(req,res)=>{
 app.post("/newProduct",(req,res)=>{
 
 
-    const q = "INSERT INTO product (`name`,`price`,`image`,`prodDescription`,`sex`,`productRelation`,`size`,`stock`) VALUES (?)";
+    const q = "INSERT INTO product (`idProduct`,`name`,`price`,`image`,`prodDescription`,`sex`,`productRelation`,`size`,`stock`) VALUES (?)";
     const values = [
+        req.body.idProduct,
         req.body.name,
         req.body.price,
         req.body.image,
@@ -57,6 +71,7 @@ app.post("/newProduct",(req,res)=>{
     ]
     db.query(q,[values], (err,data)=>{
         if(err) return res.json(err);
+        return res.json("Product has been created succesfully");
     });
 
     
@@ -66,17 +81,21 @@ app.post("/newProduct",(req,res)=>{
 
 
 app.post("/newCat",(req,res)=>{
-    const q = "INSERT INTO category (`nameCat`,`brand`,`typeCat`) VALUES (?)";
-
+    const query = "INSERT INTO category (`nameCat`,`brand`,`typeCat`,`product_productRelation`) VALUES (?)";
+    
+    const product_productRelation=req.body.productRelation
     const values =[
         req.body.nameCat,
         req.body.brand,
         req.body.typeCat,
+        product_productRelation
     ]
+    console.log(values)
 
-    db.query(q,[values], (err,data)=>{
+    db.query(query,[values], (err,data)=>{
+        
+        if(err=="ER_DUP_ENTRY") return res.json("Category has been created succesfully");
         if(err) return res.json(err);
-        return res.json("Category has been created succesfully");
     });
 });
 

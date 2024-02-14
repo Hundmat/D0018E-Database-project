@@ -1,37 +1,120 @@
 
 
-.form-container {
+.cart-form-container {
     height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    width: 300vh;
+    white-space: nowrap;
 }
 
-.form {
+.cart-cost-text{
+    border-radius: 25px;
+    text-align: center;
+    font-size: 200%;
+    height: 8vh;
+    width: auto + 10%;
+    background-color: white;
+    margin:4%;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.form input, .form textarea{
-    width: 100%;
-    height: 50px;
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-    border: 2px solid;
+.cart-title{
+    border-radius: 25px;
+    text-align: center;
+    font-size: 300%;
+    height: 10vh;
+    width: auto ;
+    background-color: white;
+    margin: 5%;
+
+}
+.cart-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f3f3f3;
+    
+}
+.button-form{
+    float: right;
+    width: 180px;
+    height: 100px;
+    margin: 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.form button {
+.cart-product{
+    border-radius: 25px;
+    padding: 1%;
+    width: 50%;
+    margin: 1%;
+    background-color: white;
+}
+
+.info-form{
+    float: left;
+    width: 30%;
+    height: 20%;
+}
+
+.image-form{
+    float: left;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2%;
+}
+
+.cart-Counter{
+    float: left;
+    font-size: 100%;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2%;
+}
+
+.cart-prodinfo{
+    float: left;
+    font-size: 70%;
+    width: auto;
+    height: auto;
+    margin: 1%;
+    color: grey;
+}
+
+.cart-empty-text{
+    border-radius: 25px;
+    text-align: center;
+    font-size: 200%;
+    height: 20vh;
+    width: auto ;
+    background-color: white;
+    margin: 5%;
+    
+}
+
+
+.cart-form button {
     background: none;
     border: none;
     outline: none;
 }
 
-.form button:hover{
+.cart-form button:hover{
     cursor: pointer;
 }
 
-#desc {
-    min-height: 100px;
-    resize: none;
+.cart-list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
 }
