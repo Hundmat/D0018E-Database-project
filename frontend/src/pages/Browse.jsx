@@ -24,25 +24,29 @@ const Browse = () => {
     }
   };
 
-  // add functionality to only clear a certain category
+  // resets selected categories
   const resetCategory = (e) => {
     const temp = e.removedValues;
     for (const t in temp){
       setSelectedCategories(selectedCategories.filter( c => c !== temp[t].value));
     }
   };
+
+  // removes single selected category
+  const removeCategory = (e) => {
+    setSelectedCategories(selectedCategories.filter( c => c !== e.removedValue.value));
+  };
   
-  // add functionality to be able to filter multiple categories at once DONE
+  // updates which products are displayed
   useEffect(() => {
     if(selectedCategories.length === 0){
-      console.log("selected categories: ", selectedCategories);
       setFilteredProductList(products);
     } else{
-      console.log("selected categories: ", selectedCategories);
       setFilteredProductList(products.filter(item => selectedCategories.every(att => Object.values(item).includes(att))));
     }
   }, [selectedCategories, products]);
 
+  // fetches all products from database
   const fetchAllProducts = async () => {
     try {
       const res = await axios.get("http://localhost:8800/browse");
@@ -57,7 +61,7 @@ const Browse = () => {
     fetchAllProducts();
   }, []);
 
-  // Enables clickable products
+  // enables clickable products
   const navigate = useNavigate();
   const handleClick = (id) => async (e) => {
     e.preventDefault();
@@ -68,43 +72,45 @@ const Browse = () => {
     }
   };
 
-  // add functionality to only clear a certain category
+  // handles select changes
   const handleSelectChange = (selectedOptions, e) =>{
-    if(selectedOptions.length === 0) {
+    if(e.action === "clear") {
       resetCategory(e);
-    } else {
+    } else if (e.action === "select-option"){
       selectedOptions.forEach(addFilterCategory)
+    } else if (e.action === "remove-value"){
+      removeCategory(e);
     }
   };
 
   const sex = [
-    { label: 'Child', value: 'kid' },
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' }
+    { label: 'Kid', value: 'Kid' },
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' }
   ];
 
   const size = [
-    { label: 'Small', value: 'small' },
-    { label: 'Medium', value: 'medium' },
-    { label: 'Large', value: 'large' }
+    { label: 'Small', value: 'Small' },
+    { label: 'Medium', value: 'Medium' },
+    { label: 'Large', value: 'Large' }
   ];
 
   const brand = [
-    { label: 'Brand1', value: 'B1' },
-    { label: 'Brand2', value: 'B2' },
-    { label: 'Brand3', value: 'B3' }
+    { label: 'Nike', value: 'Nike' },
+    { label: 'Adidas', value: 'Adidas' },
+    { label: 'Oakley', value: 'Oakley' }
   ];
 
   const catName = [
-    { label: 'Football', value: 'football' },
-    { label: 'Climbing', value: 'climbing' },
-    { label: 'Running', value: 'running' }
+    { label: 'Football', value: 'Football' },
+    { label: 'Climbing', value: 'Climbing' },
+    { label: 'Winter', value: 'Winter' }
   ];
 
   const catType = [
-    { label: 'Shoes', value: 'shoe' },
-    { label: 'Shirt', value: 'shirt' },
-    { label: 'Pants', value: 'pants' }
+    { label: 'Shoes', value: 'Shoe' },
+    { label: 'Shirt', value: 'Shirt' },
+    { label: 'Helmet', value: 'Helmet' }
   ];
 
   return (
