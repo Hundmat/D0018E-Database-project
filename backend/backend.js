@@ -7,10 +7,7 @@ const app = express();
 
 // mySQL
 const db = mysql2.createConnection({
-    host:"34.32.57.134",
-    user: "root",
-    password: "Databas123",
-    database: "e-commerce"
+   
 });
 
 // Config
