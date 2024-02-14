@@ -115,7 +115,7 @@ const Browse = () => {
   ];
 
   return (
-    <div>
+    <div className="body">
       <Navbar />
       <div className="browse-container">
         <div className="browse-filter">

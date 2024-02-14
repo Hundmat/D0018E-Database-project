@@ -3,11 +3,14 @@
   -ms-overflow-style: none;
 }
 
+.body{
+  background: linear-gradient(#2A00B7, #42006C);
+}
+
 .browse-container {
   padding: 30px;
-  background-color: #151616;
-  height: 250vh;
   color: #dadce1;
+  min-height: 81vh;
 }
 
 .browse-container p,

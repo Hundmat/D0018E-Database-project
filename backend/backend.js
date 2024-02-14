@@ -1,16 +1,18 @@
 import express from "express"
 import mysql2 from "mysql2"
 import cors from "cors"
+import dotenv from "dotenv"
 
 // Express
 const app = express();
+dotenv.config();
 
 // mySQL
 const db = mysql2.createConnection({
-    host:"34.32.57.134",
-    user: "root",
-    password: "Databas123",
-    database: "e-commerce"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 
 // Config
@@ -61,7 +63,6 @@ app.get("/browse", (req, res) => {
                 }
             });
         });
-        console.log(prods);
         return res.json(prods);
     });
 
