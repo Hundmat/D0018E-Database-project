@@ -10,7 +10,7 @@ import "../stylesheets/add.module.css"
 const Add = () => {
     const [product, setProduct] = useState({
         name: "",
-        price: 399,
+        price: "",
         image: "",
         prodDescription: "",
         sex: "",

@@ -1,9 +1,15 @@
-
+.body{
+    height:fit-content;
+    background: linear-gradient(#2A00B7, #42006C);
+}
 
 .cart-form-container {
-    height: 100vh;
+    height:fit-content;
     width: 300vh;
     white-space: nowrap;
+    border-radius: 25px;
+    border: solid 2px white;
+    margin: 3%; 
 }
 
 .cart-cost-text{
@@ -20,20 +26,24 @@
 }
 
 .cart-title{
+    flex-direction: column;
     border-radius: 25px;
     text-align: center;
     font-size: 300%;
+    font-style: bold;
+    color: white;
     height: 10vh;
     width: auto ;
-    background-color: white;
-    margin: 5%;
+    background-color: transparent;
+    margin: 1%;
+    padding: 1%;
 
 }
 .cart-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f3f3f3;
+    background-color: transparent;
     
 }
 .button-form{

@@ -1,12 +1,16 @@
 import express from 'express'
 import mysql from 'mysql2'
 import cors from "cors"
+import dotenv from "dotenv"
 
 const app = express()
+dotenv.config()
 
 const db = mysql.createConnection({
-    //add your database connection here
-    database:"e-commerce"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 
 app.use(express.json())
@@ -16,10 +20,20 @@ app.get('/', (req, res) => {
     res.json('Hello This is the backend!')
 });  
 
+app.post("/cat",(req,res)=>{
+    const q = "SELECT * FROM category WHERE product_productRelation = (?)";
+    const values = [req.body.id]
+    db.query(q,[values], (err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    })
+});
+
 app.post("/products",(req,res)=>{
     
 
     const q = "SELECT * FROM product WHERE idProduct = (?)";
+    const c = "SELECT * FROM category WHERE product_productRelation = (?)";
     console.log(req.body.id)
     const values = [
         req.body.id
@@ -76,6 +90,20 @@ app.post("/newProduct",(req,res)=>{
 
     
 
+});
+
+app.post("/removeProduct", (req, res) => {
+    const q = "DELETE FROM cart WHERE product_idProduct = ?";
+    const values = [req.body.id];
+
+
+    db.query(q, values, (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.json(err);
+        }
+        return res.json("Product has been removed successfully");
+    });
 });
 
 
