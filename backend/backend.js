@@ -36,19 +36,51 @@ app.get("/product", (req, res) => {
 
 // #region Browse/Product
 
-// Get all products
+// Get all products and categories
 app.get("/browse", (req, res) => {
-    const q = "SELECT * FROM product";
-    db.query(q, (err, data) =>{
+    const p = "SELECT * FROM product";
+    const c = "SELECT * FROM category";
+
+    const prods = [];
+
+    db.query(p, (err, data) =>{
         if(err) return res.json(err);
-        return res.json(data);
+        data.forEach((prod) => {
+            prods.push(prod);
+        });
     });
+
+    db.query(c, (err, data) =>{
+        if(err) return res.json(err);
+        prods.forEach((prod) => {
+            data.forEach((cat) => {
+                if(prod.productRelation === cat.product_productRelation){
+                    prod.nameCat = cat.nameCat;
+                    prod.brand = cat.brand;
+                    prod.typeCat = cat.typeCat;
+                }
+            });
+        });
+        console.log(prods);
+        return res.json(prods);
+    });
+
 });
 
 // Get specified product
 app.get('/product/:id', (req, res) => {
     const id = req.params.id;
     const q = `SELECT * FROM product WHERE idProduct = ${id}`;
+    db.query(q, (err, data) =>{
+        if(err) return res.json(err);
+        return res.json(data);
+    });
+});
+
+// Get specified category
+app.get('/category/:id', (req, res) => {
+    const id = req.params.id;
+    const q = `SELECT * FROM category WHERE product_productRelation = ${id}`;
     db.query(q, (err, data) =>{
         if(err) return res.json(err);
         return res.json(data);

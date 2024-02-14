@@ -63,10 +63,11 @@ const Browse = () => {
 
   // enables clickable products
   const navigate = useNavigate();
-  const handleClick = (id) => async (e) => {
+
+  const handleClick = (id, cat) => async (e) => {
     e.preventDefault();
     try {
-      await navigate(`/product`, { state: { pid: id } });
+      await navigate(`/product`, { state: { pid: id, catID: cat } });
     } catch (err) {
       console.log(err);
     }
@@ -128,11 +129,11 @@ const Browse = () => {
           {fileredProductList.map((product) => (
             <div
               className="browse-product"
-              onClick={handleClick(product.idProduct)}
+              onClick={handleClick(product.idProduct, product.productRelation)}
               key={product.idProduct}
             >
               {product.image && <img src={product.image} alt="" />}
-              <p>Rating</p>
+              <p>{product.brand}</p>
               <p>{product.sex}</p>
               <h2>{product.name}</h2>
               <p>{product.price} kr</p>

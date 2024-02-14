@@ -13,7 +13,7 @@ import "../stylesheets/navbar.css";
 import "../stylesheets/footer.css";
 
 
-const Product = ({ pid, id }) => {
+const Product = ({ pid, id, catID, cat}) => {
   const location = useLocation();
 
   const availability = (stock) => {
@@ -27,7 +27,10 @@ const Product = ({ pid, id }) => {
   };
 
   const [product, setProduct] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   useEffect(() => {
+
     const fetchProduct = async () => {
       try {
         const res = await axios.get(
@@ -39,7 +42,20 @@ const Product = ({ pid, id }) => {
       }
     };
 
+    const fetchCategory = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8800/category/${location.state.catID}`
+        );
+        setCategories(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     fetchProduct();
+    fetchCategory();
+
   }, [location]);
 
   return (
@@ -53,7 +69,7 @@ const Product = ({ pid, id }) => {
             </div>
             <div className="product-info-container">
               <div className="product-info">
-                <p>Brand</p>
+                <p>{categories.map(c => c.brand)}</p>
                 <h1>{p.name}</h1>
                 <p>{p.price} kr</p>
               </div>
