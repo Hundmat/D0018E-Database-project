@@ -17,9 +17,8 @@ const Browse = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [fileredProductList, setFilteredProductList] = useState([]);
 
-  // make prettier by not needing .value
   const addFilterCategory = (category) => {
-    if(!selectedCategories.includes(category.value)){
+    if (!selectedCategories.includes(category.value)) {
       setSelectedCategories(prev => ([...prev, category.value]))
     }
   };
@@ -27,21 +26,21 @@ const Browse = () => {
   // resets selected categories
   const resetCategory = (e) => {
     const temp = e.removedValues;
-    for (const t in temp){
-      setSelectedCategories(selectedCategories.filter( c => c !== temp[t].value));
+    for (const t in temp) {
+      setSelectedCategories(selectedCategories.filter(c => c !== temp[t].value));
     }
   };
 
   // removes single selected category
   const removeCategory = (e) => {
-    setSelectedCategories(selectedCategories.filter( c => c !== e.removedValue.value));
+    setSelectedCategories(selectedCategories.filter(c => c !== e.removedValue.value));
   };
-  
+
   // updates which products are displayed
   useEffect(() => {
-    if(selectedCategories.length === 0){
+    if (selectedCategories.length === 0) {
       setFilteredProductList(products);
-    } else{
+    } else {
       setFilteredProductList(products.filter(item => selectedCategories.every(att => Object.values(item).includes(att))));
     }
   }, [selectedCategories, products]);
@@ -74,56 +73,45 @@ const Browse = () => {
   };
 
   // handles select changes
-  const handleSelectChange = (selectedOptions, e) =>{
-    if(e.action === "clear") {
+  const handleSelectChange = (selectedOptions, e) => {
+    if (e.action === "clear") {
       resetCategory(e);
-    } else if (e.action === "select-option"){
+    } else if (e.action === "select-option") {
       selectedOptions.forEach(addFilterCategory)
-    } else if (e.action === "remove-value"){
+    } else if (e.action === "remove-value") {
       removeCategory(e);
     }
   };
 
-  const sex = [
-    { label: 'Kid', value: 'Kid' },
-    { label: 'Male', value: 'Male' },
-    { label: 'Female', value: 'Female' }
-  ];
+  // gets all options for a category
+  const getCatOptions = (cat) => {
 
-  const size = [
-    { label: 'Small', value: 'Small' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Large', value: 'Large' }
-  ];
+    const temp = [];
 
-  const brand = [
-    { label: 'Nike', value: 'Nike' },
-    { label: 'Adidas', value: 'Adidas' },
-    { label: 'Oakley', value: 'Oakley' }
-  ];
+    products.map((product) => {
 
-  const catName = [
-    { label: 'Football', value: 'Football' },
-    { label: 'Climbing', value: 'Climbing' },
-    { label: 'Winter', value: 'Winter' }
-  ];
+      if (!temp.some((e) => e.label === product[cat])) {
+        temp.push({ label: product[cat], value: product[cat] });
+      }
 
-  const catType = [
-    { label: 'Shoes', value: 'Shoe' },
-    { label: 'Shirt', value: 'Shirt' },
-    { label: 'Helmet', value: 'Helmet' }
-  ];
+      return temp;
+
+    });
+
+    return temp;
+  };
+
 
   return (
     <div className="body">
       <Navbar />
       <div className="browse-container">
         <div className="browse-filter">
-          <Select options={sex} onChange={handleSelectChange} isMulti placeholder="Sex" className="browse-select"/>
-          <Select options={size} onChange={handleSelectChange} isMulti placeholder="Size" className="browse-select"/>
-          <Select options={brand} onChange={handleSelectChange} isMulti placeholder="Brand" className="browse-select"/>
-          <Select options={catName} onChange={handleSelectChange} isMulti placeholder="Sport" className="browse-select"/>
-          <Select options={catType} onChange={handleSelectChange} isMulti placeholder="Type" className="browse-select"/>
+          <Select options={getCatOptions('sex')} onChange={handleSelectChange} isMulti placeholder="Sex" className="browse-select" />
+          <Select options={getCatOptions('size')} onChange={handleSelectChange} isMulti placeholder="Size" className="browse-select" />
+          <Select options={getCatOptions('brand')} onChange={handleSelectChange} isMulti placeholder="Brand" className="browse-select" />
+          <Select options={getCatOptions('nameCat')} onChange={handleSelectChange} isMulti placeholder="Sport" className="browse-select" />
+          <Select options={getCatOptions('typeCat')} onChange={handleSelectChange} isMulti placeholder="Type" className="browse-select" />
         </div>
         <div className="browse-products">
           {fileredProductList.map((product) => (

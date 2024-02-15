@@ -8,7 +8,7 @@ import "../stylesheets/product.css";
 
 // Navbar & Footer
 import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
+//import Footer from "../Components/Footer";
 import "../stylesheets/navbar.css";
 import "../stylesheets/footer.css";
 
@@ -93,7 +93,6 @@ const Product = ({ pid, id, catID, cat}) => {
           </div>
         ))}
       </div>
-      <Footer />
     </div>
   );
 };
