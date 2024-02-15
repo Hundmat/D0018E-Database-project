@@ -1,73 +1,101 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
-import { useLocation } from 'react-router';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useLocation } from "react-router";
+import { CiHeart } from "react-icons/ci";
 
+// Stylesheet
 import "../stylesheets/product.css";
 
+// Navbar & Footer
 import Navbar from "../Components/Navbar";
-import Footer from '../Components/Footer';
-import '../stylesheets/navbar.css';
-import '../stylesheets/footer.css';
+import Footer from "../Components/Footer";
+import "../stylesheets/navbar.css";
+import "../stylesheets/footer.css";
 
 
-const Product = ({pid, id}) => {
+const Product = ({ pid, id, catID, cat}) => {
+  const location = useLocation();
 
-    const location = useLocation();
+  const availability = (stock) => {
+    if (stock === 0) {
+      return 'Item sold out';
+    } else if (stock < 10) {
+      return 'Almost out of stock';
+    } else {
+      return 'Item in stock';
+    }
+  };
 
-    const navigate = useNavigate();
+  const [product, setProduct] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-    const handleClick = async e => {  
-        e.preventDefault();
-        try {
-            await navigate(`/browse`);
-        } catch (err) {
-            console.log(err);
-        }
+  useEffect(() => {
+
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8800/product/${location.state.pid}`
+        );
+        setProduct(res.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
-    const [product, setProduct] = useState([]);
+    const fetchCategory = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8800/category/${location.state.catID}`
+        );
+        setCategories(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const res = await axios.get(`http://localhost:8800/product/${location.state.pid}`);
-                setProduct(res.data);
-            } catch (err) {
-                console.log(err);
-            }
-        };
+    fetchProduct();
+    fetchCategory();
 
-        fetchProduct();
+  }, [location]);
 
-    }, [location])
-
-    return (
-        <div>
-            <Navbar/>
-            <div className="productPage">
-                <button className="browseButton" onClick={handleClick}>
-                    Browse
-                </button>
-                {product.map((p) => (
-                    <div className="product" key={p.idProduct}>
-                        <div className="product-image">  
-                            {p.image && <img src={p.image} alt=''/>}
-                        </div>
-                        <div className="product-info">
-                            <h2>{p.name}</h2>
-                            <h3>SEK {p.price}</h3>
-                            <h4>{p.size}</h4>
-                            <h4>{p.sex}</h4>
-                            <p>{p.prodDescription}</p>
-                            <h4>Stock: {p.stock}</h4>
-                        </div>
-                    </div>
-                ))}
+  return (
+    <div>
+      <Navbar />
+      <div className="productPage">
+        {product.map((p) => (
+          <div className="product" key={p.idProduct}>
+            <div className="product-image-container">
+              {p.image && <img src={p.image} alt="" />}
             </div>
-            <Footer/>
-         </div>
-    );
-}
+            <div className="product-info-container">
+              <div className="product-info">
+                <p>{categories.map(c => c.brand)}</p>
+                <h1>{p.name}</h1>
+                <p>{p.price} kr</p>
+              </div>
+              <div className="product-review">
+                Rating
+              </div>
+              <div className="product-size">
+                <h4>{p.size}</h4>
+              </div>
+              <div className="product-buttons-container">
+                <button className="product-cart-button">Add to cart</button>
+                <button className="product-favourite-button"><CiHeart/></button>
+              </div>
+              <div className="product-stock">
+                <p>{availability(p.stock)}</p>
+              </div>
+              <div className="product-desc">
+                <p>{p.prodDescription}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Footer />
+    </div>
+  );
+};
 
 export default Product;
