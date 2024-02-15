@@ -39,6 +39,7 @@ app.get("/product", (req, res) => {
 
 // Get all products and categories
 app.get("/browse", (req, res) => {
+    
     const p = "SELECT * FROM product";
     const c = "SELECT * FROM category";
 
