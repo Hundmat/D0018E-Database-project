@@ -1,6 +1,6 @@
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #920000;
+    background-color: rgb(2, 1, 32);
     overflow: hidden;
 }
 
@@ -13,6 +13,11 @@
     text-decoration: none;
     font-size: 17px;
 }
+
+.loginbutton {
+    float: right
+}
+
 
 /* Change the color of links on hover */
 .topnav a:hover {

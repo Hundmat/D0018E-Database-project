@@ -1,117 +1,67 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { BsPersonSquare } from "react-icons/bs";
+import { MdAlternateEmail } from "react-icons/md";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 import Navbar from "../Components/Navbar";
 import Footer from '../Components/Footer';
 import '../stylesheets/navbar.css';
 import '../stylesheets/footer.css';
+import '../stylesheets/signUp.css';
 
-const Signup = (props) => {
+
+const Signup = () => {
+
+    const [action, setAction] = useState("Sign Up");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
     const navigate = useNavigate();
-    const validatePasswords = () => {
-        if (password !== confirmPassword) {
-            setConfirmPasswordError("Passwords do not match");
-            return false;
-        } else {
-            setConfirmPasswordError("");
-            return true;
-        }
-    };
-    
-    const fetchEmail = async () => {
+
+    const handleSignup = async () => {
         try {
-            const emailexist = await axios.get(`http://localhost:8800/email=${email}`);
-            if (emailexist.data) {
-                throw new Error("Email already exists");
-            }
+            const response = await axios.post(`http://localhost:8800/${action}`, {
+                name,
+                email,
+                password,
+            });
         } catch (error) {
-            throw error; // Rethrow the error for handling in onButtonClick
+            console.log("problem med servern atm sorry", error.response.data)
         }
-    };
-    
-    const onButtonClick = async () => {
-        try {
-            await fetchEmail(email);
-            // Validate pwd before navigating
-            const passwordsMatch = validatePasswords();
-            if (passwordsMatch) {
-                // Add connection to DB to store hashed passwords
-                navigate("/login");
-            }
-        } catch (error) {
-            console.error(error.message);
-            // Handle the error (display an error message, prevent registration, etc.)
-        }
-    };
-    
+    }
     return (
-        <div className={"mainContainer"}>
+        <div><Navbar></Navbar>
+            <div className="signup-container">
+                <div className="signup-header">
+                    <div className="signup-text">{action}</div>
+                    <div className="signup-underline"></div>
+                </div>
+                <div className="signup-inputs">
+                    {action === "Login" ? <div></div> : <div className="signup-input">
+                        <BsPersonSquare className="userimage" size={25} />
+                        <input type="text" placeholder="Name" />
+                    </div>}
 
-            <Navbar/>
-
-            <div className={"titleContainer"}>
-                <div>Signup</div>
+                    <div className="signup-input">
+                        <MdAlternateEmail className="emailimage" size={25} />
+                        <input type="email" placeholder="Email" />
+                    </div>
+                    <div className="signup-input">
+                        <RiLockPasswordLine className="passwordimage" size={25} />
+                        <input type="password" placeholder="Password" />
+                    </div>
+                </div>
+                {action === "Sign Up" ? <div></div> : <div className="forgot-password">Lost Password? <span>Too bad kiddo</span></div>}
+                <div className="signup-submit-container">
+                    {/* For dynamically change the site, if login or sign up part */}
+                    <div className={action === "Login" ? "submit gray" : "submit"} onClick={() => { setAction("Sign Up") }}>Sign Up</div>
+                    <div className={action === "Sign Up" ? "submit gray" : "submit"} onClick={() => { setAction("Login") }}>Login</div>
+                </div>
             </div>
-    
-            <br />
-    
-            <div className={"inputContainer"}>
-                <input
-                    value={email}
-                    placeholder="Enter your email here"
-                    onChange={(ev) => setEmail(ev.target.value)}
-                    className={"inputBox"}
-                />
-                <label className="errorLabel">{emailError}</label>
-            </div>
-
-            <br />
-
-            <div className={"inputContainer"}>
-                <input
-                    value={password}
-                    type="password"
-                    placeholder="Enter your password here"
-                    onChange={(ev) => setPassword(ev.target.value)}
-                    className={"inputBox"}
-                />
-                <label className="errorLabel">{passwordError}</label>
-            </div>
-
-            <br />
-
-            <div className={"inputContainer"}>
-                <input
-                    value={confirmPassword}
-                    type="password"
-                    placeholder="Confirm your password"
-                    onChange={(ev) => setConfirmPassword(ev.target.value)}
-                    className={"inputBox"}
-                />
-                <label className="errorLabel">{confirmPasswordError}</label>
-            </div>
-
-            <br />
-
-            <div className={"inputContainer"}>
-                <input
-                    className={"inputButton"}
-                    type="button"
-                    onClick={onButtonClick}
-                    value={"Sign up"}
-                />
-            </div>
-            <Footer/>
         </div>
-    );
-};
+    )
+}
 
-export default Signup;
+export default Signup

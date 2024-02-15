@@ -1,4 +1,5 @@
 import React from 'react'
+import { CiLogin } from "react-icons/ci";
 import { Link, useLocation } from 'react-router-dom';
 import "../stylesheets/navbar.css"
 
@@ -23,7 +24,13 @@ const Navbar = () => {
             <Link className={isActive('/cart')} to="/cart">
                 Cart
             </Link>
+            <div className='loginbutton'>
+                <Link className={isActive('/signup')} to="/signup">
+                    <CiLogin size={28} />
+                </Link>
+            </div>
         </div>
+
     );
 };
 
