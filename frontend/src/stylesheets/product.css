@@ -5,11 +5,10 @@
 
 .productPage {
   width: 100%;
-  height: 100vh;
+  height: 81vh;
   min-height: 650px;
   box-sizing: border-box;
   padding: 30px 25%;
-  background-color: #151616;
   color: #dadce1;
 }
 
