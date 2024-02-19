@@ -1,8 +1,9 @@
 import express from "express"
 import mysql2 from "mysql2"
 import cors from "cors"
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt'
 import dotenv from "dotenv"
+import session from "express-session"
 
 const app = express()
 dotenv.config()
@@ -17,6 +18,21 @@ const db = mysql2.createConnection({
 // Config
 app.use(express.json());
 app.use(cors());
+
+// Config
+app.use(express.json());
+app.use(cors());
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'secret-cat', // Use environment variable for secrets
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 60000*60, // 1 minute for testing, adjust for your use case
+        secure: process.env.NODE_ENV === 'production', // Only send cookies over HTTPS in production
+        httpOnly: true, // Prevent client-side JavaScript access
+        sameSite: 'strict' // Mitigate cross-site request forgery (CSRF) attacks
+    }
+}));
 
 // Default
 app.get("/", (req, res) => {
@@ -89,22 +105,53 @@ app.get('/category/:id', (req, res) => {
 
 app.post('/product/addToCart/:id', (req, res) => {
 
+    // params
     const id = req.params.id;
+    const user = "user1" // req.session.user for production
+    var quant;
 
-    const q = "INSERT INTO cart (`idCart`, `quantity`, `product_idProduct`) VALUES (?)";
+    // check if product exists
+    const check = "SELECT * FROM cart WHERE productID = ? AND userID = ?";
+    db.query(check, [id, user], (err, data) => {
+        if (err) return res.json(err);
+        if (data.length > 0) {
 
-    const values = [
-        req.body.idCart = "123",
-        req.body.quantity = "1",
-        req.body.product_idProduct = id
-    ];
+            quant = parseInt(data[0].quantity) + 1;
+            
+            const q = "UPDATE cart SET `quantity` = (?) WHERE `productID` = (?) AND `userID` = (?)";
 
-    console.log(values);
+            const values = [
+                req.body.quantity = quant,
+                req.body.productID = id,
+                req.body.userID = user
+            ];
 
-    db.query(q, [values], (err,data) => {
-        if(err) return res.json(err);
-        return res.json("product has been added to cart");
-    })
+            console.log("update", q);
+
+            db.query(q, values, (err, data) => {
+                if(err) return res.json(err);
+                console.log("updated");
+                return res.json("Product quantity has been updated");
+            });
+        } else {
+
+            const q = "INSERT INTO cart (`quantity`, `productID`, `userID`) VALUES (?)";
+
+            const values = [
+                req.body.quantity = "1",
+                req.body.product_idProduct = id,
+                req.body.userID = user
+            ];
+
+            console.log("insert", q);
+
+            db.query(q, [values], (err, data) => {
+                if(err) return res.json(err);
+                console.log("inserted");
+                return res.json("Product has been added to cart");
+            })
+        }
+    });
 });
 
 // Create new product entry

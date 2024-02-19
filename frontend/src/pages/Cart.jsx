@@ -88,7 +88,7 @@ const Cart = () => {
     console.log(importData);
     const updatedProducts = await Promise.all(
       importData.map(async (item) => {
-        const tempProduct = await getProducts(item.product_idProduct);
+        const tempProduct = await getProducts(item.productID);
         console.log(tempProduct);
         const tempCat = await getCat(tempProduct[0].productRelation);
         return {
