@@ -29,6 +29,18 @@ const Product = ({ pid, id, catID, cat}) => {
   const [product, setProduct] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const addToCart = async () => {
+    try {
+      await axios.post(
+        `http://localhost:8800/product/addToCart/${location.state.pid}`
+        );
+      
+        console.log("Post request has been sent to the server!");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
 
     const fetchProduct = async () => {
@@ -80,7 +92,7 @@ const Product = ({ pid, id, catID, cat}) => {
                 <h4>{p.size}</h4>
               </div>
               <div className="product-buttons-container">
-                <button className="product-cart-button">Add to cart</button>
+                <button className="product-cart-button" onClick={addToCart}>Add to cart</button>
                 <button className="product-favourite-button"><CiHeart/></button>
               </div>
               <div className="product-stock">

@@ -87,6 +87,26 @@ app.get('/category/:id', (req, res) => {
     });
 });
 
+app.post('/product/addToCart/:id', (req, res) => {
+
+    const id = req.params.id;
+
+    const q = "INSERT INTO cart (`idCart`, `quantity`, `product_idProduct`) VALUES (?)";
+
+    const values = [
+        req.body.idCart = "123",
+        req.body.quantity = "1",
+        req.body.product_idProduct = id
+    ];
+
+    console.log(values);
+
+    db.query(q, [values], (err,data) => {
+        if(err) return res.json(err);
+        return res.json("product has been added to cart");
+    })
+});
+
 // Create new product entry
 
 
