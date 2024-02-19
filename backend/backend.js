@@ -3,6 +3,7 @@ import mysql2 from "mysql2"
 import cors from "cors"
 import bcrypt from 'bcrypt';
 import dotenv from "dotenv"
+import session from "express-session"
 
 const app = express()
 dotenv.config()
@@ -17,15 +18,28 @@ const db = mysql2.createConnection({
 // Config
 app.use(express.json());
 app.use(cors());
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'secret-cat', // Use environment variable for secrets
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 60000*60, // 1 minute for testing, adjust for your use case
+        secure: process.env.NODE_ENV === 'production', // Only send cookies over HTTPS in production
+        httpOnly: true, // Prevent client-side JavaScript access
+        sameSite: 'strict' // Mitigate cross-site request forgery (CSRF) attacks
+    }
+}));
 
-// Default
+// Default route:
 app.get("/", (req, res) => {
     res.json("This is the backend");
 });
 
+
 // #region Home
 
 app.get("/product", (req, res) => {
+    console.log(req.sessionID)
     const q = "SELECT * FROM `e-commerce`.product;"
     db.query(q, (err, data) => {
         if (err) return res.json(err)
@@ -129,8 +143,9 @@ app.get("/cart",(req,res)=>{
 
 
 app.post("/cart", (req, res) => {
-    const q = "INSERT INTO  cart (`idCart`,`quantity`,`PID`) VALUES (?)"
+    const q = "INSERT INTO  cart (`sessionID`, `idCart`,`quantity`,`PID`) VALUES (?)"
     const values = [
+        req.sessionID,
         req.body.idCart = "123",
         req.body.quantity = "2",
         req.body.PID = "456",
@@ -260,7 +275,6 @@ app.post("/newCat",(req,res)=>{
         if(err) return res.json(err);
     });
 });
-
 
 
 // Start API
