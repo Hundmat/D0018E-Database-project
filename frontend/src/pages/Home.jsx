@@ -40,10 +40,6 @@ const Home = () => {
                             </div>
                         ))}
                     </div>
-
-                    <button className="add-button">
-                        <Link to="/add">Add new book</Link>
-                    </button>
                 </div>
             </div>
             <Footer />

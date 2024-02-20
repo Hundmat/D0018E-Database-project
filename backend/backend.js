@@ -4,9 +4,20 @@ import cors from "cors"
 import bcrypt from 'bcrypt'
 import dotenv from "dotenv"
 import session from "express-session"
+import cookieParser from "cookie-parser";
+import jwt from 'jsonwebtoken'
 
 const app = express()
 dotenv.config()
+
+app.use(express.json());
+app.use(cors(
+    {
+        origin: [""],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));
 
 const db = mysql2.createConnection({
     host: process.env.DB_HOST,
@@ -16,8 +27,7 @@ const db = mysql2.createConnection({
 });
 
 // Config
-app.use(express.json());
-app.use(cors());
+
 
 // Config
 app.use(express.json());
@@ -27,7 +37,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 60000*60, // 1 minute for testing, adjust for your use case
+        maxAge: 60000 * 60, // 1 minute for testing, adjust for your use case
         secure: process.env.NODE_ENV === 'production', // Only send cookies over HTTPS in production
         httpOnly: true, // Prevent client-side JavaScript access
         sameSite: 'strict' // Mitigate cross-site request forgery (CSRF) attacks
@@ -71,7 +81,7 @@ app.get("/browse", (req, res) => {
         if(err) return res.json(err);
         prods.forEach((prod) => {
             data.forEach((cat) => {
-                if(prod.productRelation === cat.product_productRelation){
+                if (prod.productRelation === cat.product_productRelation) {
                     prod.nameCat = cat.nameCat;
                     prod.brand = cat.brand;
                     prod.typeCat = cat.typeCat;
@@ -115,8 +125,8 @@ app.get('/product/:id', (req, res) => {
 app.get('/category/:id', (req, res) => {
     const id = req.params.id;
     const q = `SELECT * FROM category WHERE product_productRelation = ${id}`;
-    db.query(q, (err, data) =>{
-        if(err) return res.json(err);
+    db.query(q, (err, data) => {
+        if (err) return res.json(err);
         return res.json(data);
     });
 });
@@ -136,7 +146,7 @@ app.post('/product/addToCart/:id', (req, res) => {
         if (data.length > 0) {
 
             quant = parseInt(data[0].quantity) + 1;
-            
+
             const q = "UPDATE cart SET `quantity` = (?) WHERE `productID` = (?) AND `userID` = (?)";
 
             const values = [
@@ -148,7 +158,7 @@ app.post('/product/addToCart/:id', (req, res) => {
             console.log("update", q);
 
             db.query(q, values, (err, data) => {
-                if(err) return res.json(err);
+                if (err) return res.json(err);
                 console.log("updated");
                 return res.json("Product quantity has been updated");
             });
@@ -165,7 +175,7 @@ app.post('/product/addToCart/:id', (req, res) => {
             console.log("insert", q);
 
             db.query(q, [values], (err, data) => {
-                if(err) return res.json(err);
+                if (err) return res.json(err);
                 console.log("inserted");
                 return res.json("Product has been added to cart");
             })
@@ -191,17 +201,17 @@ app.get('/reviews/:id', (req, res) => {
 
 // #region Cart
 
-app.post("/cat",(req,res)=>{
+app.post("/cat", (req, res) => {
     const q = "SELECT * FROM category WHERE product_productRelation = (?)";
     const values = [req.body.id]
-    db.query(q,[values], (err,data)=>{
-        if(err) return res.json(err);
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err);
         return res.json(data);
     })
 });
 
-app.post("/products",(req,res)=>{
-    
+app.post("/products", (req, res) => {
+
 
     const q = "SELECT * FROM product WHERE idProduct = (?)";
     console.log(req.body.id)
@@ -209,17 +219,17 @@ app.post("/products",(req,res)=>{
         req.body.id
     ]
 
-    db.query(q,[values], (err,data)=>{
-        if(err) return res.json(err);
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err);
         return res.json(data);
     });
 });
 
-app.get("/cart",(req,res)=>{
+app.get("/cart", (req, res) => {
     const q = "SELECT * FROM cart";
-    db.query(q,(err,data)=>{
+    db.query(q, (err, data) => {
         console.log(data)
-        if(err) return res.json(err);
+        if (err) return res.json(err);
         return res.json(data);
     })
 });
@@ -257,12 +267,12 @@ app.post("/order", (req, res) => {
 // #endregion Sign up/Login
 
 app.post("/signup", async (req, res) => {
-    const { email, name, lastname, password } = req.body;
+    const { email, name, password } = req.body;
 
     const hashedpwd = await bcrypt.hash(password, 10);
 
-    const q = "INSERT INTO login (`email`,`name`,`lastname`,`password`) VALUES (?,?,?,?)"
-    const values = [email, name, lastname, hashedpwd];
+    const q = "INSERT INTO login (`email`,`name`,`password`) VALUES (?,?,?)"
+    const values = [email, name, hashedpwd];
 
     db.query(q, values, (err, data) => {
         if (err) {
@@ -299,7 +309,7 @@ app.post("/login", async (req, res) => {
     })
 })
 
-app.post("/newProduct",(req,res)=>{
+app.post("/newProduct", (req, res) => {
 
 
     const q = "INSERT INTO product (`idProduct`,`name`,`price`,`image`,`prodDescription`,`sex`,`productRelation`,`size`,`stock`) VALUES (?)";
@@ -314,12 +324,12 @@ app.post("/newProduct",(req,res)=>{
         req.body.size,
         req.body.stock
     ]
-    db.query(q,[values], (err,data)=>{
-        if(err) return res.json(err);
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err);
         return res.json("Product has been created succesfully");
     });
 
-    
+
 
 });
 
@@ -339,11 +349,11 @@ app.post("/removeProduct", (req, res) => {
 
 
 
-app.post("/newCat",(req,res)=>{
+app.post("/newCat", (req, res) => {
     const query = "INSERT INTO category (`nameCat`,`brand`,`typeCat`,`product_productRelation`) VALUES (?)";
-    
-    const product_productRelation=req.body.productRelation
-    const values =[
+
+    const product_productRelation = req.body.productRelation
+    const values = [
         req.body.nameCat,
         req.body.brand,
         req.body.typeCat,
@@ -351,10 +361,10 @@ app.post("/newCat",(req,res)=>{
     ]
     console.log(values)
 
-    db.query(query,[values], (err,data)=>{
-        
-        if(err=="ER_DUP_ENTRY") return res.json("Category has been created succesfully");
-        if(err) return res.json(err);
+    db.query(query, [values], (err, data) => {
+
+        if (err == "ER_DUP_ENTRY") return res.json("Category has been created succesfully");
+        if (err) return res.json(err);
     });
 });
 
