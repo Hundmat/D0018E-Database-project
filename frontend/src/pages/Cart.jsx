@@ -165,60 +165,61 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-form-container">
+    <div>
       <Navbar />
-
-      <div className="cart-form">
-        <h1 className="cart-title">Shopping Cart</h1>
-        {cart.length === 0 ? (
-          <div className="cart-empty-text">
-            <p>Your cart is empty.</p>
-            <p>
-              <BsCartX size={50} />
-            </p>
-          </div>
-        ) : (
-          <div>
-            {cart.length > 0 && (
-              <ul className="cart-list">
-                {cart.map((item) => (
-                  <li className="cart-product" key={item.id}>
-                    <div className="image-form">
-                      <img
-                        src={products.find((product) => product.id === item.id).image}
-                        alt={item.name}
-                        style={{ width: "140px", height: "140px" }}
-                      />
-                    </div>
-                    <div className="info-form">
-                      <h3>{item.name}</h3>
-                      <div className="info-form">
-                        <p className="cart-prodinfo">Price: {item.price} €</p>
-                        <p className="cart-prodinfo">PID: {item.PID}</p>
-                        <p className="cart-prodinfo">Size: {item.size}</p>
-                        <p className="cart-prodinfo">Sex: {item.sex}</p>
-                        <p className="cart-prodinfo">Brand: {item.brand} </p>
+      <div className="cart-form-container">
+        <div className="cart-form">
+          <h1 className="cart-title">Shopping Cart</h1>
+          {cart.length === 0 ? (
+            <div className="cart-empty-text">
+              <p>Your cart is empty.</p>
+              <p>
+                <BsCartX size={50} />
+              </p>
+            </div>
+          ) : (
+            <div>
+              {cart.length > 0 && (
+                <ul className="cart-list">
+                  {cart.map((item) => (
+                    <li className="cart-product" key={item.id}>
+                      <div className="image-form">
+                        <img
+                          src={products.find((product) => product.id === item.id).image}
+                          alt={item.name}
+                          style={{ width: "140px", height: "140px" }}
+                        />
                       </div>
-                    </div>
-                    <div className="button-form">
-                      <button className="image-form" onClick={() => increaseQuantity(item)}>
-                        <IoIosAddCircleOutline size={22} />
-                      </button>
-                      <p fontSize="10px" className="cart-Counter">
-                        {" "}
-                        {item.quantity}
-                      </p>
-                      <button className="image-form" onClick={() => decreaseQuantity(item)}>
-                        <IoIosRemoveCircleOutline size={22} />
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <p className="cart-cost-text">Total: ${calculateTotal()}</p>
-          </div>
-        )}
+                      <div className="info-form">
+                        <h3>{item.name}</h3>
+                        <div className="info-form">
+                          <p className="cart-prodinfo">Price: {item.price} €</p>
+                          <p className="cart-prodinfo">PID: {item.PID}</p>
+                          <p className="cart-prodinfo">Size: {item.size}</p>
+                          <p className="cart-prodinfo">Sex: {item.sex}</p>
+                          <p className="cart-prodinfo">Brand: {item.brand} </p>
+                        </div>
+                      </div>
+                      <div className="button-form">
+                        <button className="image-form" onClick={() => increaseQuantity(item)}>
+                          <IoIosAddCircleOutline size={22} />
+                        </button>
+                        <p fontSize="10px" className="cart-Counter">
+                          {" "}
+                          {item.quantity}
+                        </p>
+                        <button className="image-form" onClick={() => decreaseQuantity(item)}>
+                          <IoIosRemoveCircleOutline size={22} />
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <p className="cart-cost-text">Total: ${calculateTotal()}</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
