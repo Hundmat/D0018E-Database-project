@@ -4,9 +4,9 @@ import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 function drawStars(rating) {
   let stars = [];
   for (let i = 0; i < 5; i++) {
-    if (rating >= 1) {
+    if (rating >= 0.7) {
       stars.push(<FaStar />);
-    } else if (rating >= 0.2) {
+    } else if (rating >= 0.3 && rating < 0.7) {
       stars.push(<FaStarHalfAlt />);
     } else {
       stars.push(<FaRegStar />);
