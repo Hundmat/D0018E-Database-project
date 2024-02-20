@@ -55,11 +55,10 @@ app.get("/product", (req, res) => {
 
 // Get all products and categories
 app.get("/browse", (req, res) => {
-    const p = "SELECT * FROM product";
-    const c = "SELECT * FROM category";
 
     const prods = [];
 
+    const p = "SELECT * FROM product";
     db.query(p, (err, data) =>{
         if(err) return res.json(err);
         data.forEach((prod) => {
@@ -67,6 +66,7 @@ app.get("/browse", (req, res) => {
         });
     });
 
+    const c = "SELECT * FROM category";
     db.query(c, (err, data) =>{
         if(err) return res.json(err);
         prods.forEach((prod) => {
@@ -78,9 +78,27 @@ app.get("/browse", (req, res) => {
                 }
             });
         });
-        return res.json(prods);
     });
 
+    const r = "SELECT * FROM userreviews";
+    db.query(r, (err, data) =>{
+        if(err) return res.json(err);
+        prods.forEach((prod) => {
+            var sum = 0;
+            var count = 0;
+            data.forEach((rev) => {
+                if(prod.idProduct === rev.productID){
+                    sum += parseFloat(rev.rating);
+                    count++;
+                }
+            });
+            if(count === 0) prod.averageRating = 0;
+            else prod.averageRating = (sum/count);
+            sum, count = 0;
+        });
+        //console.log(prods);
+        return res.json(prods);
+    });
 });
 
 // Get specified product
@@ -103,6 +121,7 @@ app.get('/category/:id', (req, res) => {
     });
 });
 
+// Add product to cart from product page
 app.post('/product/addToCart/:id', (req, res) => {
 
     // params
@@ -151,6 +170,17 @@ app.post('/product/addToCart/:id', (req, res) => {
                 return res.json("Product has been added to cart");
             })
         }
+    });
+});
+
+// Get all reviews for a product
+app.get('/reviews/:id', (req, res) => {
+    const id = req.params.id;
+    const q = `SELECT * FROM userreviews WHERE productID = ${id}`;
+
+    db.query(q, (err, data) => {
+        if (err) return res.json(err);
+        return res.json(data);
     });
 });
 

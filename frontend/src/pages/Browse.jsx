@@ -12,6 +12,8 @@ import Footer from "../Components/Footer";
 import "../stylesheets/navbar.css";
 import "../stylesheets/footer.css";
 
+import {StarRating} from "../Components/StarRating";
+
 const Browse = () => {
   const [products, setProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -63,10 +65,10 @@ const Browse = () => {
   // enables clickable products
   const navigate = useNavigate();
 
-  const handleClick = (id, cat) => async (e) => {
+  const handleClick = (id, cat, average) => async (e) => {
     e.preventDefault();
     try {
-      await navigate(`/product`, { state: { pid: id, catID: cat } });
+      await navigate(`/product`, { state: { pid: id, catID: cat, averageRating: average } });
     } catch (err) {
       console.log(err);
     }
@@ -117,12 +119,13 @@ const Browse = () => {
           {fileredProductList.map((product) => (
             <div
               className="browse-product"
-              onClick={handleClick(product.idProduct, product.productRelation)}
+              onClick={handleClick(product.idProduct, product.productRelation, product.averageRating)}
               key={product.idProduct}
             >
               {product.image && <img src={product.image} alt="" />}
               <p>{product.brand}</p>
               <p>{product.sex}</p>
+              <StarRating rating={product.averageRating} />
               <h2>{product.name}</h2>
               <p>{product.price} kr</p>
               <p>{product.size}</p>

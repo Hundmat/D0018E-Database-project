@@ -1,15 +1,21 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React from "react";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
-export default function StarRating(numReviews, rating) {
+function drawStars(rating) {
+  let stars = [];
+  for (let i = 0; i < 5; i++) {
+    if (rating >= 1) {
+      stars.push(<FaStar />);
+    } else if (rating >= 0.2) {
+      stars.push(<FaStarHalfAlt />);
+    } else {
+      stars.push(<FaRegStar />);
+    }
+    rating--;
+  }
+  return stars;
+};
 
-
-
-  return (
-
-    <p>
-        {numReviews}
-    </p>
-  );
+export const StarRating = (value) => {
+  return (<p>{drawStars(value.rating)}</p>);
 }

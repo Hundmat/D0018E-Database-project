@@ -12,8 +12,10 @@ import Navbar from "../Components/Navbar";
 import "../stylesheets/navbar.css";
 import "../stylesheets/footer.css";
 
+import {StarRating} from "../Components/StarRating";
 
-const Product = ({ pid, id, catID, cat}) => {
+
+const Product = ({ pid, id, catID, cat, averageRating, average}) => {
   const location = useLocation();
 
   const availability = (stock) => {
@@ -28,6 +30,7 @@ const Product = ({ pid, id, catID, cat}) => {
 
   const [product, setProduct] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   const addToCart = async () => {
     try {
@@ -65,8 +68,20 @@ const Product = ({ pid, id, catID, cat}) => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8800/reviews/${location.state.pid}`
+        );
+        setReviews(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     fetchProduct();
     fetchCategory();
+    fetchReviews();
 
   }, [location]);
 
@@ -86,7 +101,7 @@ const Product = ({ pid, id, catID, cat}) => {
                 <p>{p.price} kr</p>
               </div>
               <div className="product-review">
-                Rating
+                <StarRating rating={location.state.averageRating} />
               </div>
               <div className="product-size">
                 <h4>{p.size}</h4>
@@ -105,6 +120,16 @@ const Product = ({ pid, id, catID, cat}) => {
           </div>
         ))}
       </div>
+      <div className="product-reviews">
+        <h1>Reviews</h1>
+        {reviews.map((r) => (
+          <div className="product-reviews-review" key={r.idReview}>
+            <h3>{r.userName}</h3>
+            <StarRating rating={r.rating} />
+            <p>{r.comment}</p>
+          </div>
+        ))}
+        </div>
     </div>
   );
 };
