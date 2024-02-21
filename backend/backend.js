@@ -8,13 +8,6 @@ import session from "express-session"
 const app = express()
 dotenv.config()
 
-<<<<<<< HEAD
-app.use(express.json());
-app.use(cors())
-
-
-=======
->>>>>>> 8c773fdd9f4a46b64c35f2be38ebd8e8a55bbe48
 const db = mysql2.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -23,6 +16,7 @@ const db = mysql2.createConnection({
 });
 
 // Config
+app.use(cors())
 app.use(express.json());
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret-cat', // Use environment variable for secrets

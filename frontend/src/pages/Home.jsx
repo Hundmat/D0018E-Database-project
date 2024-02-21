@@ -22,7 +22,7 @@ const Home = () => {
     }, [])
 
     return (
-        <div >
+        <div className='body'>
             <div className="home-allt">
                 <div className="home-container">
                     <h1>SPORTSHOP DELUXE</h1>
