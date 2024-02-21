@@ -19,7 +19,7 @@
 }
 
 .signup-text {
-    color: darkblue;
+    color: var(--signup-color);
     font-size: 47px;
     font-weight: 700;
 }
@@ -27,7 +27,7 @@
 .signup-underline {
     width: 59px;
     height: 6px;
-    background-color: darkblue;
+    background-color: var(--signup-color);
     border-radius: 9px;
 }
 

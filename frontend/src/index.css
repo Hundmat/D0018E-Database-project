@@ -6,10 +6,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  background: linear-gradient(#2A00B7, #42006C);
+  background: linear-gradient(
+    var(--bg1), 
+    var(--bg2)
+  );
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --bg1: #FDC830;
+  --bg2: #F37335;
+  --container: #dadce1;
+  --signup-color: darkblue;
+  --navbar-color: rgb(2, 1, 32);
 }

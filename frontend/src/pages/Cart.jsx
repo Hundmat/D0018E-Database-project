@@ -5,13 +5,6 @@ import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BsCartX } from "react-icons/bs";
 import axios from 'axios';
 
-
-import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
-import "../stylesheets/navbar.css";
-import "../stylesheets/footer.css";
-
-
 async function getCart()  {
   try {
     const response = await axios.get("http://localhost:8800/cart");
@@ -166,7 +159,6 @@ const Cart = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="cart-form-container">
         <div className="cart-form">
           <h1 className="cart-title">Shopping Cart</h1>

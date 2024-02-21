@@ -1,6 +1,9 @@
 .body{
     height:fit-content;
-    background: linear-gradient(#2A00B7, #42006C);
+    background: linear-gradient(
+        var(--bg1), 
+        var(--bg2)
+    );
 }
 
 .cart-form-container {

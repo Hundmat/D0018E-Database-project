@@ -2,12 +2,10 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { Link } from "react-router-dom"
-import Navbar from "../Components/Navbar";
-import Footer from '../Components/Footer';
+
 import '../stylesheets/home.css'
 
-import '../stylesheets/navbar.css';
-import '../stylesheets/footer.css';
+
 const Home = () => {
     const [products, setProducts] = useState([])
 
@@ -25,7 +23,6 @@ const Home = () => {
 
     return (
         <div >
-            <Navbar />
             <div className="home-allt">
                 <div className="home-container">
                     <h1>SPORTSHOP DELUXE</h1>
@@ -42,7 +39,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }

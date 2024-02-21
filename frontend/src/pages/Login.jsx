@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Navbar from "../Components/Navbar";
-import Footer from '../Components/Footer';
-import '../stylesheets/navbar.css';
-import '../stylesheets/footer.css';
 
 const Login = (props) => {
 
@@ -24,8 +20,6 @@ const Login = (props) => {
 
 
     return <div className={"mainContainer"}>
-
-        <Navbar/>
 
         <div className={"titleContainer"}>
 
@@ -75,9 +69,7 @@ const Login = (props) => {
             onClick={onSignupClick}
             value={"Sign up"} /> 
         </div>
-        <Footer/>
     </div>
-
 }
 
 export default Login;

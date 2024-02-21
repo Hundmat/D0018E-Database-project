@@ -1,7 +1,7 @@
 import React from 'react'
 import { CiLogin } from "react-icons/ci";
 import { Link, useLocation, NavLink } from 'react-router-dom';
-import "../stylesheets/navbar.css"
+import "./navbar.css"
 
 const Navbar = () => {
     const location = useLocation();
@@ -29,7 +29,7 @@ const Navbar = () => {
             </NavLink>
             <div className='loginbutton'>
                 <Link className={isActive('/signup')} to="/signup">
-                    <CiLogin size={28} />
+                    <CiLogin />
                 </Link>
             </div>
         </div>

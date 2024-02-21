@@ -6,16 +6,11 @@ import { CiHeart } from "react-icons/ci";
 // Stylesheet
 import "../stylesheets/product.css";
 
-// Navbar & Footer
-import Navbar from "../Components/Navbar";
-//import Footer from "../Components/Footer";
-import "../stylesheets/navbar.css";
-import "../stylesheets/footer.css";
 
-import {StarRating} from "../Components/StarRating";
+import {StarRating} from "../Components/Starrating/StarRating";
 
 
-const Product = ({ pid, id, catID, cat, averageRating, average}) => {
+const Product = ({ pid, id, catID, cat, averageRating, average }) => {
   const location = useLocation();
 
   const availability = (stock) => {
@@ -87,7 +82,6 @@ const Product = ({ pid, id, catID, cat, averageRating, average}) => {
 
   return (
     <div>
-      <Navbar />
       <div className="productPage">
         {product.map((p) => (
           <div className="product" key={p.idProduct}>

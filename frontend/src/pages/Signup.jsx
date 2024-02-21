@@ -5,10 +5,7 @@ import { BsPersonSquare } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 
-import Navbar from "../Components/Navbar";
-import Footer from '../Components/Footer';
-import '../stylesheets/navbar.css';
-import '../stylesheets/footer.css';
+
 import '../stylesheets/signUp.css';
 
 
@@ -47,7 +44,7 @@ const Signup = () => {
         }
     }
     return (
-        <div><Navbar></Navbar>
+        <div>
             <div className="signup-container">
                 <div className="signup-header">
                     <div className="signup-text">{action}</div>

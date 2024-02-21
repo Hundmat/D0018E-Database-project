@@ -4,20 +4,13 @@ import cors from "cors"
 import bcrypt from 'bcrypt'
 import dotenv from "dotenv"
 import session from "express-session"
-import cookieParser from "cookie-parser";
-import jwt from 'jsonwebtoken'
 
 const app = express()
 dotenv.config()
 
 app.use(express.json());
-app.use(cors(
-    {
-        origin: [""],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-));
+app.use(cors())
+
 
 const db = mysql2.createConnection({
     host: process.env.DB_HOST,
@@ -27,11 +20,7 @@ const db = mysql2.createConnection({
 });
 
 // Config
-
-
-// Config
 app.use(express.json());
-app.use(cors());
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret-cat', // Use environment variable for secrets
     resave: false,

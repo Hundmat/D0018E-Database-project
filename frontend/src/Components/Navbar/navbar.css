@@ -1,6 +1,6 @@
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: rgb(2, 1, 32);
+    background-color: var(--navbar-color);
     overflow: hidden;
 }
 
@@ -12,10 +12,12 @@
     padding: 20px 16px;
     text-decoration: none;
     font-size: 17px;
+    margin: auto;
 }
 
 .loginbutton {
-    float: right
+    float: right;
+    height: 90%;
 }
 
 

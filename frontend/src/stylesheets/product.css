@@ -8,7 +8,7 @@
   min-height: 650px;
   box-sizing: border-box;
   padding: 30px 25%;
-  color: #dadce1;
+  color: var(--container);
 }
 
 /* Product image */
@@ -54,12 +54,12 @@
 
 .product-buttons-container button {
   background-color: black;
-  color: #dadce1;
+  color: var(--container);
   border-style: none;
 }
 
 .product-buttons-container button:hover {
-  background-color: #dadce1;
+  background-color: var(--container);
   color: black;
   border-style: none;
   cursor: pointer;
@@ -88,7 +88,7 @@
 }
 
 .product-reviews {
-  color: #dadce1;
+  color: var(--container);
   width: 100%;
   min-height: 650px;
   box-sizing: border-box;

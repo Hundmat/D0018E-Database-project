@@ -6,13 +6,8 @@ import axios from "axios";
 // Stylesheet
 import "../stylesheets/browse.css";
 
-// Navbar & Footer
-import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
-import "../stylesheets/navbar.css";
-import "../stylesheets/footer.css";
 
-import {StarRating} from "../Components/StarRating";
+import {StarRating} from "../Components/Starrating/StarRating";
 
 const Browse = () => {
   const [products, setProducts] = useState([]);
@@ -106,7 +101,6 @@ const Browse = () => {
 
   return (
     <div className="body">
-      <Navbar />
       <div className="browse-container">
         <div className="browse-filter">
           <Select options={getCatOptions('sex')} onChange={handleSelectChange} isMulti placeholder="Sex" className="browse-select" />
@@ -133,7 +127,6 @@ const Browse = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
