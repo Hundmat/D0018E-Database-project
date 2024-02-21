@@ -34,6 +34,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .browse-select {
@@ -42,12 +43,16 @@
   margin-right: 10px;
 }
 
+.browse-products-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .browse-products {
   display: flex;
   flex-wrap: wrap;
-  float: right;
-
-  width: 100%;
+  width: 89%;
 }
 
 .browse-product {
@@ -74,4 +79,5 @@
   width: auto;
   height: 400px;
   border: 2px solid;
+  border-radius: 6px;
 }

@@ -8,10 +8,13 @@ import session from "express-session"
 const app = express()
 dotenv.config()
 
+<<<<<<< HEAD
 app.use(express.json());
 app.use(cors())
 
 
+=======
+>>>>>>> 8c773fdd9f4a46b64c35f2be38ebd8e8a55bbe48
 const db = mysql2.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -52,11 +55,12 @@ app.get("/product", (req, res) => {
 
 // #region Browse/Product
 
-// Get all products and categories
+// Get browse content
 app.get("/browse", (req, res) => {
 
     const prods = [];
 
+    // Get all products
     const p = "SELECT * FROM product";
     db.query(p, (err, data) =>{
         if(err) return res.json(err);
@@ -65,6 +69,7 @@ app.get("/browse", (req, res) => {
         });
     });
 
+    // Get all categories
     const c = "SELECT * FROM category";
     db.query(c, (err, data) =>{
         if(err) return res.json(err);
@@ -79,7 +84,8 @@ app.get("/browse", (req, res) => {
         });
     });
 
-    const r = "SELECT * FROM userreviews";
+    // Get average rating for each product
+    const r = "SELECT rating, productID FROM userreviews";
     db.query(r, (err, data) =>{
         if(err) return res.json(err);
         prods.forEach((prod) => {
@@ -182,9 +188,6 @@ app.get('/reviews/:id', (req, res) => {
         return res.json(data);
     });
 });
-
-// Create new product entry
-
 
 // #endregion Browse/Product
 

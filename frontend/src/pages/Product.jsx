@@ -15,11 +15,11 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
 
   const availability = (stock) => {
     if (stock === 0) {
-      return 'Item sold out';
+      return "Item sold out";
     } else if (stock < 10) {
-      return 'Almost out of stock';
+      return "Almost out of stock";
     } else {
-      return 'Item in stock';
+      return "Item in stock";
     }
   };
 
@@ -31,16 +31,15 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
     try {
       await axios.post(
         `http://localhost:8800/product/addToCart/${location.state.pid}`
-        );
-      
-        console.log("Post request has been sent to the server!");
+      );
+
+      console.log("Post request has been sent to the server!");
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-
     const fetchProduct = async () => {
       try {
         const res = await axios.get(
@@ -77,7 +76,6 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
     fetchProduct();
     fetchCategory();
     fetchReviews();
-
   }, [location]);
 
   return (
@@ -90,7 +88,7 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
             </div>
             <div className="product-info-container">
               <div className="product-info">
-                <p>{categories.map(c => c.brand)}</p>
+                <p>{categories.map((c) => c.brand)}</p>
                 <h1>{p.name}</h1>
                 <p>{p.price} kr</p>
               </div>
@@ -101,8 +99,12 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
                 <h4>{p.size}</h4>
               </div>
               <div className="product-buttons-container">
-                <button className="product-cart-button" onClick={addToCart}>Add to cart</button>
-                <button className="product-favourite-button"><CiHeart/></button>
+                <button className="product-cart-button" onClick={addToCart}>
+                  Add to cart
+                </button>
+                <button className="product-favourite-button">
+                  <CiHeart />
+                </button>
               </div>
               <div className="product-stock">
                 <p>{availability(p.stock)}</p>
@@ -123,7 +125,7 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
             <p>{r.comment}</p>
           </div>
         ))}
-        </div>
+      </div>
     </div>
   );
 };
