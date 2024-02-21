@@ -6,10 +6,6 @@ import axios from "axios";
 // Stylesheet
 import "../stylesheets/browse.css";
 
-// Navbar component
-import Navbar from "../Components/Navbar";
-import "../stylesheets/navbar.css";
-
 // Star rating component
 import { StarRating } from "../Components/StarRating";
 
@@ -111,7 +107,6 @@ const Browse = () => {
 
   return (
     <div className="body">
-      <Navbar />
       <div className="browse-container">
         <div className="browse-filter">
           <Select
@@ -150,26 +145,28 @@ const Browse = () => {
             className="browse-select"
           />
         </div>
-        <div className="browse-products">
-          {fileredProductList.map((product) => (
-            <div
-              className="browse-product"
-              onClick={handleClick(
-                product.idProduct,
-                product.productRelation,
-                product.averageRating
-              )}
-              key={product.idProduct}
-            >
-              {product.image && <img src={product.image} alt="" />}
-              <p>{product.brand}</p>
-              <p>{product.sex}</p>
-              <StarRating rating={product.averageRating} />
-              <h2>{product.name}</h2>
-              <p>{product.price} kr</p>
-              <p>{product.size}</p>
-            </div>
-          ))}
+        <div className="browse-products-wrapper">
+          <div className="browse-products">
+            {fileredProductList.map((product) => (
+              <div
+                className="browse-product"
+                onClick={handleClick(
+                  product.idProduct,
+                  product.productRelation,
+                  product.averageRating
+                )}
+                key={product.idProduct}
+              >
+                {product.image && <img src={product.image} alt="" />}
+                <p>{product.brand}</p>
+                <p>{product.sex}</p>
+                <StarRating rating={product.averageRating} />
+                <h2>{product.name}</h2>
+                <p>{product.price} kr</p>
+                <p>{product.size}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

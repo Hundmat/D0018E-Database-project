@@ -6,12 +6,6 @@ import { CiHeart } from "react-icons/ci";
 // Stylesheet
 import "../stylesheets/product.css";
 
-// Navbar & Footer
-import Navbar from "../Components/Navbar";
-//import Footer from "../Components/Footer";
-import "../stylesheets/navbar.css";
-import "../stylesheets/footer.css";
-
 import { StarRating } from "../Components/StarRating";
 
 const Product = ({ pid, id, catID, cat, averageRating, average }) => {
@@ -84,7 +78,6 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
 
   return (
     <div className="body">
-      <Navbar />
       <div className="productPage">
         {product.map((p) => (
           <div className="product" key={p.idProduct}>
