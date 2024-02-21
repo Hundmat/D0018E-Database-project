@@ -158,7 +158,7 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <div className='body'>
       <div className="cart-form-container">
         <div className="cart-form">
           <h1 className="cart-title">Shopping Cart</h1>
