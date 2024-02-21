@@ -10,24 +10,12 @@ import jwt from 'jsonwebtoken'
 const app = express()
 dotenv.config()
 
-app.use(express.json());
-app.use(cors(
-    {
-        origin: [""],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-));
-
 const db = mysql2.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE
 });
-
-// Config
-
 
 // Config
 app.use(express.json());
@@ -63,11 +51,12 @@ app.get("/product", (req, res) => {
 
 // #region Browse/Product
 
-// Get all products and categories
+// Get browse content
 app.get("/browse", (req, res) => {
 
     const prods = [];
 
+    // Get all products
     const p = "SELECT * FROM product";
     db.query(p, (err, data) =>{
         if(err) return res.json(err);
@@ -76,6 +65,7 @@ app.get("/browse", (req, res) => {
         });
     });
 
+    // Get all categories
     const c = "SELECT * FROM category";
     db.query(c, (err, data) =>{
         if(err) return res.json(err);
@@ -90,7 +80,8 @@ app.get("/browse", (req, res) => {
         });
     });
 
-    const r = "SELECT * FROM userreviews";
+    // Get average rating for each product
+    const r = "SELECT rating, productID FROM userreviews";
     db.query(r, (err, data) =>{
         if(err) return res.json(err);
         prods.forEach((prod) => {
@@ -193,9 +184,6 @@ app.get('/reviews/:id', (req, res) => {
         return res.json(data);
     });
 });
-
-// Create new product entry
-
 
 // #endregion Browse/Product
 

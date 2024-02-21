@@ -6,13 +6,12 @@ import axios from "axios";
 // Stylesheet
 import "../stylesheets/browse.css";
 
-// Navbar & Footer
+// Navbar component
 import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
 import "../stylesheets/navbar.css";
-import "../stylesheets/footer.css";
 
-import {StarRating} from "../Components/StarRating";
+// Star rating component
+import { StarRating } from "../Components/StarRating";
 
 const Browse = () => {
   const [products, setProducts] = useState([]);
@@ -21,7 +20,7 @@ const Browse = () => {
 
   const addFilterCategory = (category) => {
     if (!selectedCategories.includes(category.value)) {
-      setSelectedCategories(prev => ([...prev, category.value]))
+      setSelectedCategories((prev) => [...prev, category.value]);
     }
   };
 
@@ -29,13 +28,17 @@ const Browse = () => {
   const resetCategory = (e) => {
     const temp = e.removedValues;
     for (const t in temp) {
-      setSelectedCategories(selectedCategories.filter(c => c !== temp[t].value));
+      setSelectedCategories(
+        selectedCategories.filter((c) => c !== temp[t].value)
+      );
     }
   };
 
   // removes single selected category
   const removeCategory = (e) => {
-    setSelectedCategories(selectedCategories.filter(c => c !== e.removedValue.value));
+    setSelectedCategories(
+      selectedCategories.filter((c) => c !== e.removedValue.value)
+    );
   };
 
   // updates which products are displayed
@@ -43,7 +46,11 @@ const Browse = () => {
     if (selectedCategories.length === 0) {
       setFilteredProductList(products);
     } else {
-      setFilteredProductList(products.filter(item => selectedCategories.every(att => Object.values(item).includes(att))));
+      setFilteredProductList(
+        products.filter((item) =>
+          selectedCategories.every((att) => Object.values(item).includes(att))
+        )
+      );
     }
   }, [selectedCategories, products]);
 
@@ -68,7 +75,9 @@ const Browse = () => {
   const handleClick = (id, cat, average) => async (e) => {
     e.preventDefault();
     try {
-      await navigate(`/product`, { state: { pid: id, catID: cat, averageRating: average } });
+      await navigate(`/product`, {
+        state: { pid: id, catID: cat, averageRating: average },
+      });
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +88,7 @@ const Browse = () => {
     if (e.action === "clear") {
       resetCategory(e);
     } else if (e.action === "select-option") {
-      selectedOptions.forEach(addFilterCategory)
+      selectedOptions.forEach(addFilterCategory);
     } else if (e.action === "remove-value") {
       removeCategory(e);
     }
@@ -87,39 +96,69 @@ const Browse = () => {
 
   // gets all options for a category
   const getCatOptions = (cat) => {
-
     const temp = [];
 
     products.map((product) => {
-
       if (!temp.some((e) => e.label === product[cat])) {
         temp.push({ label: product[cat], value: product[cat] });
       }
 
       return temp;
-
     });
 
     return temp;
   };
-
 
   return (
     <div className="body">
       <Navbar />
       <div className="browse-container">
         <div className="browse-filter">
-          <Select options={getCatOptions('sex')} onChange={handleSelectChange} isMulti placeholder="Sex" className="browse-select" />
-          <Select options={getCatOptions('size')} onChange={handleSelectChange} isMulti placeholder="Size" className="browse-select" />
-          <Select options={getCatOptions('brand')} onChange={handleSelectChange} isMulti placeholder="Brand" className="browse-select" />
-          <Select options={getCatOptions('nameCat')} onChange={handleSelectChange} isMulti placeholder="Sport" className="browse-select" />
-          <Select options={getCatOptions('typeCat')} onChange={handleSelectChange} isMulti placeholder="Type" className="browse-select" />
+          <Select
+            options={getCatOptions("sex")}
+            onChange={handleSelectChange}
+            isMulti
+            placeholder="Sex"
+            className="browse-select"
+          />
+          <Select
+            options={getCatOptions("size")}
+            onChange={handleSelectChange}
+            isMulti
+            placeholder="Size"
+            className="browse-select"
+          />
+          <Select
+            options={getCatOptions("brand")}
+            onChange={handleSelectChange}
+            isMulti
+            placeholder="Brand"
+            className="browse-select"
+          />
+          <Select
+            options={getCatOptions("nameCat")}
+            onChange={handleSelectChange}
+            isMulti
+            placeholder="Sport"
+            className="browse-select"
+          />
+          <Select
+            options={getCatOptions("typeCat")}
+            onChange={handleSelectChange}
+            isMulti
+            placeholder="Type"
+            className="browse-select"
+          />
         </div>
         <div className="browse-products">
           {fileredProductList.map((product) => (
             <div
               className="browse-product"
-              onClick={handleClick(product.idProduct, product.productRelation, product.averageRating)}
+              onClick={handleClick(
+                product.idProduct,
+                product.productRelation,
+                product.averageRating
+              )}
               key={product.idProduct}
             >
               {product.image && <img src={product.image} alt="" />}
@@ -133,7 +172,6 @@ const Browse = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
