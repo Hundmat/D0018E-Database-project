@@ -27,10 +27,6 @@
 
 /* Add a color to the active/current link */
 .topnav a.active {
-<<<<<<< Updated upstream
     background-color: #020352;
-=======
-    background-color: #15097c;
->>>>>>> Stashed changes
     color: white;
 }
