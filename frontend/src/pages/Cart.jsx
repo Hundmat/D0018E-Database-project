@@ -4,6 +4,8 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BsCartX } from "react-icons/bs";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
 
 
 import Navbar from "../Components/Navbar";
@@ -15,7 +17,7 @@ import "../stylesheets/footer.css";
 async function getCart()  {
   try {
     const response = await axios.get("http://localhost:8800/cart");
-    console.log(JSON.parse(JSON.stringify(response.data)));
+    //console.log(JSON.parse(JSON.stringify(response.data)));
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -62,6 +64,7 @@ async function removeProducts(e) {
  * @returns {JSX.Element} The ShoppingCart component.
  */
 const Cart = () => {
+  const navigate = useNavigate();
   // State variables
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
@@ -85,11 +88,15 @@ const Cart = () => {
    */
   const fetch = async () => {
     const importData = await getCart();
-    console.log(importData);
+    //console.log(importData);
     const updatedProducts = await Promise.all(
       importData.map(async (item) => {
         const tempProduct = await getProducts(item.productID);
+<<<<<<< Updated upstream
         console.log(tempProduct);
+=======
+        //console.log(tempProduct,"tempProduct");
+>>>>>>> Stashed changes
         const tempCat = await getCat(tempProduct[0].productRelation);
         return {
           id: item.idCart,
@@ -165,11 +172,23 @@ const Cart = () => {
   };
 
   return (
+<<<<<<< Updated upstream
     <div>
       <Navbar />
       <div className="cart-form-container">
         <div className="cart-form">
           <h1 className="cart-title">Shopping Cart</h1>
+=======
+    <div className='cart-body'>
+      <Navbar />
+      <div className="cart-form-container">
+        <h1 className="cart-title">Shopping Cart</h1>
+        
+        <div className="cart-form">
+          
+          
+          
+>>>>>>> Stashed changes
           {cart.length === 0 ? (
             <div className="cart-empty-text">
               <p>Your cart is empty.</p>
@@ -179,6 +198,13 @@ const Cart = () => {
             </div>
           ) : (
             <div>
+<<<<<<< Updated upstream
+=======
+              <div className="cart-cost">
+                <p className="cart-cost-text">Total: ${calculateTotal()}</p>
+                <button className='cart-button' onClick={() => navigate(`/order`)}>Checkout</button>
+              </div>
+>>>>>>> Stashed changes
               {cart.length > 0 && (
                 <ul className="cart-list">
                   {cart.map((item) => (
@@ -216,8 +242,14 @@ const Cart = () => {
                   ))}
                 </ul>
               )}
+<<<<<<< Updated upstream
               <p className="cart-cost-text">Total: ${calculateTotal()}</p>
             </div>
+=======
+              
+            </div>
+            
+>>>>>>> Stashed changes
           )}
         </div>
       </div>
