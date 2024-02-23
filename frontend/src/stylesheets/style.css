@@ -6,5 +6,8 @@ textarea, input {
 
 .App{
     height: 100vh;
-    background: linear-gradient(#2A00B7, #42006C);
+    background: linear-gradient(
+        var(--bg1), 
+        var(--bg2)
+    );
 }

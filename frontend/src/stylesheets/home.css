@@ -3,6 +3,7 @@
     /* Adjust the max-width as needed */
     margin: 0 auto;
     text-align: center;
+    color: var(--container);
 }
 
 .recommended-products {
@@ -14,11 +15,11 @@
 .home-product {
     width: 200px;
     /* Set a fixed width as needed */
-    border: 1px solid #000000;
+    border: 2px solid;
     padding: 10px;
     margin: 10px;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .home-product img {

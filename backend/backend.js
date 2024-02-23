@@ -1,11 +1,11 @@
-import express from "express"
+import express, { json } from "express"
 import mysql2 from "mysql2"
 import cors from "cors"
 import bcrypt from 'bcrypt'
 import dotenv from "dotenv"
-import session from "express-session"
 import cookieParser from "cookie-parser";
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+const { verify } = jwt;
 
 const app = express()
 dotenv.config()
@@ -19,26 +19,37 @@ const db = mysql2.createConnection({
 
 // Config
 app.use(express.json());
-app.use(cors());
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'secret-cat', // Use environment variable for secrets
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 60000 * 60, // 1 minute for testing, adjust for your use case
-        secure: process.env.NODE_ENV === 'production', // Only send cookies over HTTPS in production
-        httpOnly: true, // Prevent client-side JavaScript access
-        sameSite: 'strict' // Mitigate cross-site request forgery (CSRF) attacks
+app.use(cors(
+    {
+        origin: ["http://localhost:3000"],
+        methods: ["POST", "GET"],
+        credentials: true
     }
-}));
+));
+app.use(cookieParser());
 
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.json({ Message: "No cookie detected. Login please" })
+    } else {
+        jwt.verify(token, "our-secret-cookie-password-hehe", (err, decoded) => {
+            if (err) {
+                return res.json({ Message: "Authentication Error." })
+            } else {
+                req.email = decoded.email;
+                next();
+            }
+
+        })
+    }
+}
 // Default
-app.get("/", (req, res) => {
-    res.json("This is the backend");
+app.get("/", verifyUser, (req, res) => {
+    return res.json({ Status: "Success", email: req.email })
 });
 
 // #region Home
-
 app.get("/product", (req, res) => {
     const q = "SELECT * FROM `e-commerce`.product;"
     db.query(q, (err, data) => {
@@ -46,6 +57,7 @@ app.get("/product", (req, res) => {
         return res.json(data)
     })
 })
+
 
 // #endregion Home
 
@@ -58,8 +70,8 @@ app.get("/browse", (req, res) => {
 
     // Get all products
     const p = "SELECT * FROM product";
-    db.query(p, (err, data) =>{
-        if(err) return res.json(err);
+    db.query(p, (err, data) => {
+        if (err) return res.json(err);
         data.forEach((prod) => {
             prods.push(prod);
         });
@@ -67,8 +79,8 @@ app.get("/browse", (req, res) => {
 
     // Get all categories
     const c = "SELECT * FROM category";
-    db.query(c, (err, data) =>{
-        if(err) return res.json(err);
+    db.query(c, (err, data) => {
+        if (err) return res.json(err);
         prods.forEach((prod) => {
             data.forEach((cat) => {
                 if (prod.productRelation === cat.product_productRelation) {
@@ -82,19 +94,19 @@ app.get("/browse", (req, res) => {
 
     // Get average rating for each product
     const r = "SELECT rating, productID FROM userreviews";
-    db.query(r, (err, data) =>{
-        if(err) return res.json(err);
+    db.query(r, (err, data) => {
+        if (err) return res.json(err);
         prods.forEach((prod) => {
             var sum = 0;
             var count = 0;
             data.forEach((rev) => {
-                if(prod.idProduct === rev.productID){
+                if (prod.idProduct === rev.productID) {
                     sum += parseFloat(rev.rating);
                     count++;
                 }
             });
-            if(count === 0) prod.averageRating = 0;
-            else prod.averageRating = (sum/count);
+            if (count === 0) prod.averageRating = 0;
+            else prod.averageRating = (sum / count);
             sum, count = 0;
         });
         //console.log(prods);
@@ -312,6 +324,7 @@ app.post("/signup", async (req, res) => {
 })
 
 app.post("/login", async (req, res) => {
+    console.log("Received login request:", req.body)
     const { email, password } = req.body;
 
     const q = "SELECT * FROM login WHERE email = ?";
@@ -330,7 +343,22 @@ app.post("/login", async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
         if (passwordMatch) {
-            return res.json("Login successful");
+            const email = data[0].email;
+            const token = jwt.sign({ email }, "our-secret-cookie-password-hehe", { expiresIn: '1h' });
+            const updateQuery = "UPDATE login SET token = ? WHERE email = ?";
+            const updateValues = [token, email];
+
+            db.query(updateQuery, updateValues, (updateErr, updateResult) => {
+                if (updateErr) {
+                    console.error("Error updating token in the database:", updateErr);
+                    return res.status(500).json({ error: "Error updating token in the database" });
+                }
+
+                // Set the cookie outside the db.query callback
+                res.cookie('token', token, { httpOnly: true, sameSite: 'None' });
+
+                return res.json({ message: "Login successful" });
+            });
         } else {
             return res.status(401).json({ error: "Invalid credentials" });
         }

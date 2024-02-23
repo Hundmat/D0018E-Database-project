@@ -4,20 +4,11 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BsCartX } from "react-icons/bs";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-
-
-
-import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
-import "../stylesheets/navbar.css";
-import "../stylesheets/footer.css";
-
 
 async function getCart()  {
   try {
     const response = await axios.get("http://localhost:8800/cart");
-    //console.log(JSON.parse(JSON.stringify(response.data)));
+    console.log(JSON.parse(JSON.stringify(response.data)));
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -64,7 +55,6 @@ async function removeProducts(e) {
  * @returns {JSX.Element} The ShoppingCart component.
  */
 const Cart = () => {
-  const navigate = useNavigate();
   // State variables
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
@@ -88,7 +78,7 @@ const Cart = () => {
    */
   const fetch = async () => {
     const importData = await getCart();
-    //console.log(importData);
+    console.log(importData);
     const updatedProducts = await Promise.all(
       importData.map(async (item) => {
         const tempProduct = await getProducts(item.productID);

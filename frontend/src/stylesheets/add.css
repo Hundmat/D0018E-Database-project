@@ -46,3 +46,11 @@
     min-height: 100px;
     resize: none;
 }
+
+input, .addButton, textarea {
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

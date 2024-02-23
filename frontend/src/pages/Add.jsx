@@ -4,10 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../stylesheets/add.css"
 
-import Navbar from "../Components/Navbar";
-import Footer from '../Components/Footer';
-import '../stylesheets/navbar.css';
-import '../stylesheets/footer.css';
+
 
 
 
@@ -55,14 +52,11 @@ const Add = () => {
     const handleChangeCat = (e) => {
         setCategory((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-    
 
-    console.log(product);
     
     return (
         
         <div className="form-container">
-            <Navbar />
             <div className="form">
                 <h1>Add new product</h1>
                 <input
@@ -132,7 +126,7 @@ const Add = () => {
                     onChange={handleChange} 
                     name="productRelation" 
                 />
-                <button onClick={handleClick}>Add</button>
+                <button className="addButton" onClick={handleClick}>Add</button>
             </div>
            
         </div>

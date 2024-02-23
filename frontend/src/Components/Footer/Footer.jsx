@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import '../stylesheets/footer.css';
+import './footer.css';
+
 const Footer = () => {
     const [isFooterFixed, setIsFooterFixed] = useState(false);
 
