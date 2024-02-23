@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import '../stylesheets/cart.css';
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BsCartX } from "react-icons/bs";
 import axios from 'axios';
 
-async function getCart()  {
+async function getCart() {
   try {
     const response = await axios.get("http://localhost:8800/cart");
     console.log(JSON.parse(JSON.stringify(response.data)));
@@ -18,7 +19,7 @@ async function getCart()  {
 
 async function getCat(e) {
   try {
-    const response = await axios.post("http://localhost:8800/cat",{id:e});
+    const response = await axios.post("http://localhost:8800/cat", { id: e });
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -28,7 +29,7 @@ async function getCat(e) {
 
 async function getProducts(e) {
   try {
-    const response = await axios.post("http://localhost:8800/products",{id:e});
+    const response = await axios.post("http://localhost:8800/products", { id: e });
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -39,7 +40,7 @@ async function getProducts(e) {
 async function removeProducts(e) {
   try {
     console.log(e);
-    const response = await axios.post("http://localhost:8800/removeProduct",{id:e});
+    const response = await axios.post("http://localhost:8800/removeProduct", { id: e });
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -159,14 +160,13 @@ const Cart = () => {
 
   return (
     <div className='cart-body'>
-      <Navbar />
       <div className="cart-form-container">
         <h1 className="cart-title">Shopping Cart</h1>
-        
+
         <div className="cart-form">
-          
-          
-          
+
+
+
           {cart.length === 0 ? (
             <div className="cart-empty-text">
               <p>Your cart is empty.</p>
@@ -178,7 +178,7 @@ const Cart = () => {
             <div>
               <div className="cart-cost">
                 <p className="cart-cost-text">Total: ${calculateTotal()}</p>
-                <button className='cart-button' onClick={() => navigate(`/order`)}>Checkout</button>
+                <button className='cart-button' onClick={() => Navigate(`/order`)}>Checkout</button>
               </div>
               {cart.length > 0 && (
                 <ul className="cart-list">
@@ -217,9 +217,9 @@ const Cart = () => {
                   ))}
                 </ul>
               )}
-              
+
             </div>
-            
+
           )}
         </div>
       </div>

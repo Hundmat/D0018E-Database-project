@@ -10,6 +10,7 @@ const Home = () => {
     const [products, setProducts] = useState([])
     const [auth, setAuth] = useState(false);
     const [name, setName] = useState("")
+    const [userId, setUserID] = useState("")
     const [message, setMessage] = useState("")
 
     // useEffect(() => {
@@ -25,12 +26,13 @@ const Home = () => {
     // }, [])
 
     useEffect(() => {
-        axios.get('http://localhost:8800/')
+        axios.get('http://localhost:8800/auth', { withCredentials: true })
             .then(res => {
                 if (res.data.Status === "Success") {
                     setAuth(true);
-                    console.log("Detta är din mail/namn: ", res.email)
-                    setName(res.data.email)
+                    //setName(res.data.email)
+                    setName(res.data.name)
+                    setUserID(res.data.userId)
                 } else {
                     setMessage(res.data.Message)
                 }
@@ -47,7 +49,7 @@ const Home = () => {
                         {
                             auth ?
                                 <div>
-                                    <h3>You are authorized {name}</h3>
+                                    <h3>Welcome Back {name} with userId {userId}</h3>
                                 </div>
                                 :
                                 <div>

@@ -13,7 +13,6 @@ import Browse from './pages/Browse';
 import Product from './pages/Product';
 import Signup from './pages/Signup';
 import Cart from './pages/Cart';
-import Profile from './Components/Profile';
 import Order from './pages/Order';
 
 import Profile from './Components/Profile/Profile.jsx';
@@ -25,7 +24,7 @@ function App() {
   return (
     <div className='App'>
       <BrowserRouter>
-      <Navbar />
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<Browse />} />
@@ -34,7 +33,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/order" element={<Order/>}/>
+          <Route path="/order" element={<Order />} />
         </Routes>
       </BrowserRouter>
     </div>
