@@ -4,6 +4,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { BsCartX } from "react-icons/bs";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 async function getCart()  {
   try {
@@ -58,7 +59,7 @@ const Cart = () => {
   // State variables
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   /**
    * Adds a product to the cart.
    *
@@ -159,7 +160,7 @@ const Cart = () => {
 
   return (
     <div className='cart-body'>
-      <Navbar />
+      
       <div className="cart-form-container">
         <h1 className="cart-title">Shopping Cart</h1>
         

@@ -1,9 +1,26 @@
-.body{
-    height:fit-content;
-    background: linear-gradient(
-        var(--bg1), 
-        var(--bg2)
-    );
+* {
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+}
+
+.cart-body{
+    background: linear-gradient(#2A00B7, #42006C);
+    padding-bottom: 1%;
+}
+
+.cart-button{
+    
+    border-radius: 25px;
+    background-color: #2A00B7;
+    
+}
+
+.cart-cost{
+    float: right;
+    padding: 8% 10%;
+    border-radius: 25px;
+    background-color: white;
+    margin: 1.7% 5%;
 }
 
 .cart-form-container {
@@ -18,9 +35,7 @@
     border-radius: 25px;
     text-align: center;
     font-size: 200%;
-    height: 8vh;
-    width: auto + 10%;
-    background-color: white;
+
     margin:4%;
     display: flex;
     flex-direction: column;
@@ -61,7 +76,7 @@
 .cart-product{
     border-radius: 25px;
     padding: 1%;
-    width: 50%;
+    width: 80%;
     margin: 1%;
     background-color: white;
 }

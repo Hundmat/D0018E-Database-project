@@ -1,0 +1,128 @@
+
+* {
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+}
+
+.order-body{
+    background: linear-gradient(#2A00B7, #42006C);
+    padding-bottom: 1%;
+    
+}
+
+.order-checkout{
+    margin: 1%;
+    font-size: 300%;
+    background: linear-gradient(#2A00B7, #42006C);
+    background-clip:text;
+    -webkit-text-fill-color: transparent; 
+    text-align: center;
+}
+
+.order-sum{
+    background: linear-gradient(#2A00B7, #42006C);
+    background-clip:text;
+    -webkit-text-fill-color: transparent; 
+    text-align: center;
+    margin: 0%;
+}
+
+.order-middle{
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    background-color: white;
+    margin: 2% 5% 2% 5%;
+    
+}
+
+.order-center{
+    display: flex;
+    flex-direction: row;
+    border-radius: 25px;
+    background-color: white;
+    margin: 0% 5%;
+}
+
+.order-name{
+    background: linear-gradient(#2A00B7, #42006C);
+    background-clip:text;
+    -webkit-text-fill-color: transparent; 
+    margin: 1% 0%;
+}
+
+.order-order{
+    background: linear-gradient(#2A00B7, #42006C);
+    background-clip:text;
+    -webkit-text-fill-color: transparent; 
+    margin: 3% 5%;
+}
+
+.order-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: transparent;
+    margin: 3% 5%;
+}
+
+.order-input{
+    
+    margin: 0% 0%;
+    border-image: linear-gradient(45deg,#2A00B7, #42006C) 10;
+}
+
+.order-left, .order-right {
+    display: flex;
+    flex-direction: row;
+    width: 50%; /* Adjust as needed */
+    display: inline-block;
+    vertical-align: top; /* Align the divs at the top */
+  }
+
+.order-right{
+    /* border-radius: 25px;
+    border: solid 2px rgb(82, 36, 210);  */
+    margin: 0% 1% 1% 1%;
+    
+    
+}
+
+.order-right-inner{
+    
+
+    margin-top: 5.5%;
+}
+
+.order-line{
+    height: 1px;
+    background: linear-gradient(#2A00B7, #42006C);
+    
+}
+.order-button-save{
+    
+    
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 3%;
+    
+    border-radius: 25px;
+    background-image: linear-gradient(to right, #2A00B7, #42006C);
+    border: 0;
+    color: white;
+    padding: 2% 5%; ;
+}
+.order-button{
+    margin-top: 3%;
+    border-radius: 25px;
+    background-image: linear-gradient(to right, #2A00B7, #42006C);
+    border: 0;
+    color: white;
+    padding: 2% 5%; ;
+}
+
+.order-left{
+    /* border-radius: 25px;
+    border: solid 2px red;  */
+    margin: 0% 1% 1% 1%;
+}

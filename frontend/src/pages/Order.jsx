@@ -2,29 +2,41 @@ import React, {useEffect, useState } from 'react';
 import '../stylesheets/order.css';
 import axios from 'axios';
 
-import Navbar from "../Components/Navbar";
-import Footer from "../Components/Footer";
-import "../stylesheets/navbar.css";
-import "../stylesheets/footer.css";
 
-async function postOrder(e) {
+async function postOrder(formData) {
   try {
-    const response = await axios.post("http://localhost:8800/order",{e});
-    return JSON.parse(JSON.stringify(response.data));
+    await axios.post("http://localhost:8800/order", formData);
+    return 200;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error posting order:", error);
     return [];
   }
-};
-//get active user
-//get user cart
-//uppdate order with user cart
-const Order = () =>  {
+}
+
+async function getCart(userID) {
+  try {
+    const response = await axios.post("http://localhost:8800/cart", {userID});
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    return [];
+  }
+}
+
+async function updateOrder(formCart,orderID) {
+  try {
+    const response = await axios.post("http://localhost:8800/orderProducts", formCart,orderID);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    return [];
+  }
+}
+
+const Order = () => {
   const [formData, setFormData] = useState({
     userID: '1',
-    orderID: '12344',
-    productID: '1000',
-    quantity: '1',
+    orderID: '',
     fullName: '',
     email: '',
     address: '',
@@ -36,6 +48,34 @@ const Order = () =>  {
     cvv: ''
   });
 
+  const [formCart, setFormCart] = useState([]);
+
+  useEffect(() => {
+    fetchCart("user1");
+  }, []);
+
+  const fetchCart = async (userID) => {
+    try {
+      const response = await getCart(userID);
+      const orderID = Math.floor(Math.random() * 1000000000); // Generate orderID
+      const updatedFormCart = response.map(cartItem => ({
+        orderID: orderID,
+        quantity: cartItem.quantity,
+        productID: cartItem.productID,
+        price: "100"
+      }));
+      setFormData(prevState => ({
+        ...prevState,
+        orderID: orderID // Set the same orderID in formData
+      }));
+      setFormCart(updatedFormCart);
+      return response;
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+      return [];
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -44,37 +84,37 @@ const Order = () =>  {
     }));
   };
 
-  const handleSubmit = (e) => {
-    alert('Form submitted');
-    console.log('Form submitted');
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const fetch = async () => {
-      const response = await postOrder(formData);
-      console.log(response);
+    
+    await postOrder(formData);
+    try {
+      console.log(formCart);
+      await updateOrder(formCart);
+      setFormData({
+        userID: '',
+        orderID: '',
+        fullName: '',
+        email: '',
+        address: '',
+        city: '',
+        country: '',
+        zip: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: ''
+      });
+      setFormCart([]);
+      alert('Order submitted successfully');
+    } catch (error){
+      alert('Failed to submit order');
     }
-    
-    fetch();
-    
-    // Add logic for handling form submission (e.g., sending data to server)
-    console.log(formData);
-    // Reset form data after submission
-    setFormData({
-      fullName: '',
-      email: '',
-      address: '',
-      city: '',
-      country: '',
-      zip: '',
-      cardNumber: '',
-      expiryDate: '',
-      cvv: ''
-    });
   };
+
 
   return (
     <div className='order-body'>
-      <Navbar />
         <div className='order-middle'>
             <h1 className='order-checkout'>Checkout</h1>
             <div className='order-center'>

@@ -13,7 +13,6 @@ import Browse from './pages/Browse';
 import Product from './pages/Product';
 import Signup from './pages/Signup';
 import Cart from './pages/Cart';
-import Profile from './Components/Profile';
 import Order from './pages/Order';
 
 import Profile from './Components/Profile/Profile.jsx';

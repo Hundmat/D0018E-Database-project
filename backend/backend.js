@@ -116,24 +116,23 @@ app.get("/browse", (req, res) => {
 
 
 app.post("/order", (req, res) => {
+    console.log(req.body);
     
-    const q = `CREATE TABLE IF NOT EXISTS \`${req.body.e.orderID}\` (orderID INT AUTO_INCREMENT PRIMARY KEY, fullName VARCHAR(50), email VARCHAR(100), address VARCHAR(100), city VARCHAR(50), country VARCHAR(50), zip VARCHAR(50), productID INT, quantity INT,price DECIMAL(6,2), FOREIGN KEY (productID) REFERENCES product(idProduct))` ;
+    const q = `CREATE TABLE IF NOT EXISTS \`${req.body.orderID}\` (orderID INT AUTO_INCREMENT PRIMARY KEY, fullName VARCHAR(50), email VARCHAR(100), address VARCHAR(100), city VARCHAR(50), country VARCHAR(50), zip VARCHAR(50), productID INT, quantity INT,price DECIMAL(6,2), FOREIGN KEY (productID) REFERENCES product(idProduct))` ;
     
     db.query(q, (err, data) => {
         
         if (err) return res.json(err,"Error creating table");
     });
 
-    const c = `INSERT INTO \`${req.body.e.orderID}\` (fullName,email,address,city,country,zip,productID,quantity) VALUES (?)`;
+    const c = `INSERT INTO \`${req.body.orderID}\` (fullName,email,address,city,country,zip) VALUES (?)`;
     const values = [
-        req.body.e.fullName,
-        req.body.e.email,
-        req.body.e.address,
-        req.body.e.city,
-        req.body.e.country,
-        req.body.e.zip,
-        req.body.e.productID,
-        req.body.e.quantity
+        req.body.fullName,
+        req.body.email,
+        req.body.address,
+        req.body.city,
+        req.body.country,
+        req.body.zip,
     ];
     console.log(values);
     db.query(c, [values], (err, insertResult) => {
@@ -143,8 +142,8 @@ app.post("/order", (req, res) => {
 
     const a = "INSERT INTO `e-commerce`.order (`idOrder`, `customer_idCustomer`) VALUES (?)";
     const values2 = [
-        req.body.e.orderID,
-        req.body.e.userID,
+        req.body.orderID,
+        req.body.userID,
     ];
 
     db.query(a, [values2], (err, data2) => {
@@ -153,6 +152,29 @@ app.post("/order", (req, res) => {
     });
 
 });   
+
+app.post("/orderProducts", (req, res) => {
+    if (!req.body) return res.json("No products to order");
+    
+    for (let i = 0; i < req.body.length; i++) {
+        const q = `INSERT INTO \`${req.body[i].orderID}\` (productID,quantity,price) VALUES (?)`;
+        const values = [
+            JSON.stringify(req.body[i].productID),
+            JSON.stringify(req.body[i].quantity),
+            req.body[i].price
+        ];
+        console.log(values);
+    
+        db.query(q, [values], (err, data) => {
+            if (err) return res.json(err);
+        });
+    
+    }
+    return res.json("Order has been added");
+});
+
+
+
 
 // Get specified product
 app.get('/product/:id', (req, res) => {
@@ -265,44 +287,22 @@ app.post("/products", (req, res) => {
     });
 });
 
-app.get("/cart", (req, res) => {
-    const q = "SELECT * FROM cart";
-    db.query(q, (err, data) => {
-        console.log(data)
-        if (err) return res.json(err);
+app.post("/cart", (req, res) => {
+    const q = "SELECT * FROM cart WHERE userID = ?";
+    //console.log(req.body.userID)
+    const userID = req.body.userID; // Assuming e contains the userID
+    db.query(q, [userID], (err, data) => {
+        if (err) {
+            console.error("Error fetching cart:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+        //console.log(data);
         return res.json(data);
-    })
+    });
 });
 
 
-app.post("/cart", (req, res) => {
-    const q = "INSERT INTO  cart (`idCart`,`quantity`,`PID`) VALUES (?)"
-    const values = [
-        req.body.idCart = "123",
-        req.body.quantity = "2",
-        req.body.PID = "456",
-    ]
-    db.query(q, [values], (err, data) => {
-        if (err) return res.json(err)
-        return res.json("Order has been added")
-    })
-})
 
-// #endregion Cart
-
-app.post("/order", (req, res) => {
-    const q = "INSERT INTO  order (`idOrder`,`Quantity`,`customer_idCustomer`, `product_idProduct`) VALUES (?)"
-    const values = [
-        req.body.idOrder = "123",
-        req.body.Quantity = "FAN VA BRA SIDA",
-        req.body.customer_idCustomer = "456",
-        req.body.product_idProduct = "789",
-    ]
-    db.query(q, [values], (err, data) => {
-        if (err) return res.json(err)
-        return res.json("Order has been added")
-    })
-})
 
 // #endregion Sign up/Login
 
