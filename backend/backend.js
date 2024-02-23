@@ -28,25 +28,10 @@ app.use(cors(
 ));
 app.use(cookieParser());
 
-const verifyUser = (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.json({ Message: "No cookie detected. Login please" })
-    } else {
-        jwt.verify(token, "our-secret-cookie-password-hehe", (err, decoded) => {
-            if (err) {
-                return res.json({ Message: "Authentication Error." })
-            } else {
-                req.email = decoded.email;
-                next();
-            }
 
-        })
-    }
-}
 // Default
-app.get("/", verifyUser, (req, res) => {
-    return res.json({ Status: "Success", email: req.email })
+app.get("/", (req, res) => {
+    res.json("This is the backend");
 });
 
 // #region Home
@@ -324,7 +309,6 @@ app.post("/signup", async (req, res) => {
 })
 
 app.post("/login", async (req, res) => {
-    console.log("Received login request:", req.body)
     const { email, password } = req.body;
 
     const q = "SELECT * FROM login WHERE email = ?";
@@ -343,8 +327,10 @@ app.post("/login", async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
         if (passwordMatch) {
+            const userId = data[0].userId
             const email = data[0].email;
-            const token = jwt.sign({ email }, "our-secret-cookie-password-hehe", { expiresIn: '1h' });
+            const name = data[0].name
+            const token = jwt.sign({ email, name, userId }, "our-secret-cookie-password-hehe", { expiresIn: '1h' });
             const updateQuery = "UPDATE login SET token = ? WHERE email = ?";
             const updateValues = [token, email];
 
@@ -354,7 +340,6 @@ app.post("/login", async (req, res) => {
                     return res.status(500).json({ error: "Error updating token in the database" });
                 }
 
-                // Set the cookie outside the db.query callback
                 res.cookie('token', token, { httpOnly: true, sameSite: 'None' });
 
                 return res.json({ message: "Login successful" });
@@ -364,6 +349,30 @@ app.post("/login", async (req, res) => {
         }
     })
 })
+
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.json({ Message: "No cookie detected. Login please" })
+    } else {
+        jwt.verify(token, "our-secret-cookie-password-hehe", (err, decoded) => {
+            if (err) {
+                return res.json({ Message: "Authentication Error." })
+            } else {
+                req.email = decoded.email;
+                req.name = decoded.name;
+                req.userId = decoded.userId
+                next();
+            }
+
+        })
+    }
+}
+app.get("/auth", verifyUser, (req, res) => {
+    return res.json({ Status: "Success", name: req.name, userId: req.userId })
+});
+
+
 
 app.post("/newProduct", (req, res) => {
 
