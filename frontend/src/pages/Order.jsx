@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import '../stylesheets/order.css';
+import axios from 'axios';
+
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../stylesheets/navbar.css";
 import "../stylesheets/footer.css";
 
-function Order() {
+async function postOrder(e) {
+  try {
+    const response = await axios.post("http://localhost:8800/order",{e});
+    return JSON.parse(JSON.stringify(response.data));
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+};
+//get active user
+//get user cart
+//uppdate order with user cart
+const Order = () =>  {
   const [formData, setFormData] = useState({
+    userID: '1',
+    orderID: '12344',
+    productID: '1000',
+    quantity: '1',
     fullName: '',
     email: '',
     address: '',
@@ -27,8 +45,17 @@ function Order() {
   };
 
   const handleSubmit = (e) => {
+    alert('Form submitted');
     console.log('Form submitted');
     e.preventDefault();
+
+    const fetch = async () => {
+      const response = await postOrder(formData);
+      console.log(response);
+    }
+    
+    fetch();
+    
     // Add logic for handling form submission (e.g., sending data to server)
     console.log(formData);
     // Reset form data after submission
@@ -54,7 +81,7 @@ function Order() {
                 
                 <div className='order-left'>
                   <h1 className='order-sum'>Information</h1>
-                    <form className="order-form">
+                    <form className="order-form" onSubmit={handleSubmit}>
                         <p className='order-name'>Full Name</p>
                         <input className="order-input" type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
                         <p className='order-name'>Email</p>
@@ -73,7 +100,10 @@ function Order() {
                         <input className="order-input" type="text" name="expiryDate" value={formData.expiryDate} onChange={handleChange}  required />
                         <p className='order-name'>CVV</p>
                         <input className="order-input" type="text" name="cvv" value={formData.cvv} onChange={handleChange}  required />
+                        <button className='order-button-save' type="submit">Order</button>
+
                     </form>
+
                 </div>
                 <div className='order-right'> 
                   <h1 className='order-sum'>Order Summary</h1>
@@ -82,7 +112,6 @@ function Order() {
                       <h4 className= "order-order">Order value: 1000 kr</h4>
                       <h4 className= "order-order">Delivery Cost: 29.00 kr</h4>
                       <div className='order-line'></div>
-                      <button className='order-button' type="submit" >Order</button>
                     </div>
                 </div>
             </div>

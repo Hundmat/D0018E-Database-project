@@ -92,11 +92,7 @@ const Cart = () => {
     const updatedProducts = await Promise.all(
       importData.map(async (item) => {
         const tempProduct = await getProducts(item.productID);
-<<<<<<< Updated upstream
-        console.log(tempProduct);
-=======
         //console.log(tempProduct,"tempProduct");
->>>>>>> Stashed changes
         const tempCat = await getCat(tempProduct[0].productRelation);
         return {
           id: item.idCart,
@@ -172,13 +168,6 @@ const Cart = () => {
   };
 
   return (
-<<<<<<< Updated upstream
-    <div>
-      <Navbar />
-      <div className="cart-form-container">
-        <div className="cart-form">
-          <h1 className="cart-title">Shopping Cart</h1>
-=======
     <div className='cart-body'>
       <Navbar />
       <div className="cart-form-container">
@@ -188,7 +177,6 @@ const Cart = () => {
           
           
           
->>>>>>> Stashed changes
           {cart.length === 0 ? (
             <div className="cart-empty-text">
               <p>Your cart is empty.</p>
@@ -198,13 +186,10 @@ const Cart = () => {
             </div>
           ) : (
             <div>
-<<<<<<< Updated upstream
-=======
               <div className="cart-cost">
                 <p className="cart-cost-text">Total: ${calculateTotal()}</p>
                 <button className='cart-button' onClick={() => navigate(`/order`)}>Checkout</button>
               </div>
->>>>>>> Stashed changes
               {cart.length > 0 && (
                 <ul className="cart-list">
                   {cart.map((item) => (
@@ -242,14 +227,9 @@ const Cart = () => {
                   ))}
                 </ul>
               )}
-<<<<<<< Updated upstream
-              <p className="cart-cost-text">Total: ${calculateTotal()}</p>
-            </div>
-=======
               
             </div>
             
->>>>>>> Stashed changes
           )}
         </div>
       </div>

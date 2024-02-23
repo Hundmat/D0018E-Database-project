@@ -102,6 +102,46 @@ app.get("/browse", (req, res) => {
     });
 });
 
+
+app.post("/order", (req, res) => {
+    
+    const q = `CREATE TABLE IF NOT EXISTS \`${req.body.e.orderID}\` (orderID INT AUTO_INCREMENT PRIMARY KEY, fullName VARCHAR(50), email VARCHAR(100), address VARCHAR(100), city VARCHAR(50), country VARCHAR(50), zip VARCHAR(50), productID INT, quantity INT,price DECIMAL(6,2), FOREIGN KEY (productID) REFERENCES product(idProduct))` ;
+    
+    db.query(q, (err, data) => {
+        
+        if (err) return res.json(err,"Error creating table");
+    });
+
+    const c = `INSERT INTO \`${req.body.e.orderID}\` (fullName,email,address,city,country,zip,productID,quantity) VALUES (?)`;
+    const values = [
+        req.body.e.fullName,
+        req.body.e.email,
+        req.body.e.address,
+        req.body.e.city,
+        req.body.e.country,
+        req.body.e.zip,
+        req.body.e.productID,
+        req.body.e.quantity
+    ];
+    console.log(values);
+    db.query(c, [values], (err, insertResult) => {
+        if (err) return res.json(err);
+        
+    });
+
+    const a = "INSERT INTO `e-commerce`.order (`idOrder`, `customer_idCustomer`) VALUES (?)";
+    const values2 = [
+        req.body.e.orderID,
+        req.body.e.userID,
+    ];
+
+    db.query(a, [values2], (err, data2) => {
+        if (err) return res.json(err);
+        return res.json("Order has been added");
+    });
+
+});   
+
 // Get specified product
 app.get('/product/:id', (req, res) => {
     const id = req.params.id;
