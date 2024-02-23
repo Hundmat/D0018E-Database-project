@@ -18,9 +18,10 @@ const Signup = () => {
     const [loginError, setLoginError] = useState(false)
     const navigate = useNavigate();
 
-    const handleSignup = async (e) => {
-        e.preventDefault()
+    axios.defaults.withCredentials = true;
+    const handleSignup = async () => {
         try {
+
             const response = await axios.post(`http://localhost:8800/signup`, {
                 name,
                 email,
@@ -28,11 +29,12 @@ const Signup = () => {
             });
             setAction("Login")
         } catch (error) {
-            console.log("problem med servern atm sorry", error.response.data)
+            if (error.response) {
+                console.log("Fel lösenord bre", error.response.data)
+            }
         }
     }
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    const handleLogin = async () => {
         try {
             const response = await axios.post(`http://localhost:8800/login`, {
                 email,
@@ -40,7 +42,9 @@ const Signup = () => {
             });
             navigate("/");
         } catch (error) {
-            console.log("Fel lösenord bre", error.response.data)
+            if (error.response) {
+                console.log("Fel lösenord bre", error.response.data)
+            }
         }
     }
     return (
