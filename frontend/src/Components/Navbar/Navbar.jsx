@@ -3,7 +3,7 @@ import { CiLogin } from "react-icons/ci";
 import { Link, useLocation, NavLink } from 'react-router-dom';
 import "./navbar.css"
 
-const Navbar = () => {
+const Navbar = ({ isAdmin }) => {
     const location = useLocation();
 
     const isActive = (path) => {
@@ -18,9 +18,11 @@ const Navbar = () => {
             <Link className={isActive('/browse')} to="/browse">
                 Browse
             </Link>
-            <Link className={isActive('/add')} to="/add">
-                Add
-            </Link>
+            {isAdmin && (
+                <Link className={isActive('/add')} to="/add">
+                    Add
+                </Link>
+            )}
             <Link className={isActive('/cart')} to="/cart">
                 Cart
             </Link>

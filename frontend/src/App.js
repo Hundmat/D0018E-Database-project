@@ -1,5 +1,5 @@
 // Imports
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -19,18 +19,28 @@ import Profile from './Components/Profile/Profile.jsx';
 import Navbar from './Components/Navbar/Navbar';
 // Stylesheets
 import "./stylesheets/style.css";
+import Login from './pages/Login.jsx';
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const handleLogin = (adminStatus) => {
+    console.log("adminStatus: ", adminStatus);
+    setIsAdmin(adminStatus);
+  }
+
+
+
   return (
     <div className='App'>
       <BrowserRouter>
-        <Navbar />
+        <Navbar isAdmin={isAdmin}/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/browse" element={<Browse />} />
-          <Route path="/add" element={<Add />} />
+          <Route path="/add" element= {isAdmin ? <Add /> : null} />
           <Route path="/product" element={<Product />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup onLogin={handleLogin}/>} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order" element={<Order />} />

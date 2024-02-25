@@ -9,7 +9,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import '../stylesheets/signUp.css';
 
 
-const Signup = () => {
+const Signup = ({ onLogin }) => {
 
     const [action, setAction] = useState("Login");
     const [name, setName] = useState("");
@@ -40,6 +40,8 @@ const Signup = () => {
                 email,
                 password
             });
+            const isAdmin = response.data.isAdmin;
+            onLogin(isAdmin===1);
             navigate("/");
         } catch (error) {
             if (error.response) {

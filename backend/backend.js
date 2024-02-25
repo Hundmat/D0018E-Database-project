@@ -324,6 +324,7 @@ app.post("/login", async (req, res) => {
             return res.status(401).json({ error: "Wrong login credentials" });
         }
         const hashedPassword = data[0].password;
+        const isAdmin = data[0].isAdmin;
         const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
         if (passwordMatch) {
@@ -342,7 +343,7 @@ app.post("/login", async (req, res) => {
 
                 res.cookie('token', token, { httpOnly: true, sameSite: 'None' });
 
-                return res.json({ message: "Login successful" });
+                return res.json({ message: "Login successful", isAdmin});
             });
         } else {
             return res.status(401).json({ error: "Invalid credentials" });
