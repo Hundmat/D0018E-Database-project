@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
-import { CiHeart } from "react-icons/ci";
 
 // Stylesheet
 import "../stylesheets/product.css";
@@ -129,9 +128,6 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
               <div className="product-buttons-container">
                 <button className="product-cart-button" onClick={addToCart}>
                   Add to cart
-                </button>
-                <button className="product-favourite-button">
-                  <CiHeart />
                 </button>
               </div>
               <div className="product-stock">

@@ -205,8 +205,6 @@ app.post('/product/addToCart/:uid/:pid', (req, res) => {
                 req.body.userID = user
             ];
 
-            console.log("update", q);
-
             db.query(q, values, (err, data) => {
                 if (err) return res.json(err);
                 console.log("updated");
@@ -221,8 +219,6 @@ app.post('/product/addToCart/:uid/:pid', (req, res) => {
                 req.body.product_idProduct = pid,
                 req.body.userID = user
             ];
-
-            console.log("insert", q);
 
             db.query(q, [values], (err, data) => {
                 if (err) return res.json(err);
