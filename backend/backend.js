@@ -182,16 +182,16 @@ app.get('/category/:id', (req, res) => {
 });
 
 // Add product to cart from product page
-app.post('/product/addToCart/:id', (req, res) => {
+app.post('/product/addToCart/:uid/:pid', (req, res) => {
 
     // params
-    const id = req.params.id;
-    const user = "user1" // req.session.user for production
+    const pid = req.params.pid;
+    const user = req.params.uid;
     var quant;
 
     // check if product exists
     const check = "SELECT * FROM cart WHERE productID = ? AND userID = ?";
-    db.query(check, [id, user], (err, data) => {
+    db.query(check, [pid, user], (err, data) => {
         if (err) return res.json(err);
         if (data.length > 0) {
 
@@ -201,7 +201,7 @@ app.post('/product/addToCart/:id', (req, res) => {
 
             const values = [
                 req.body.quantity = quant,
-                req.body.productID = id,
+                req.body.productID = pid,
                 req.body.userID = user
             ];
 
@@ -218,7 +218,7 @@ app.post('/product/addToCart/:id', (req, res) => {
 
             const values = [
                 req.body.quantity = "1",
-                req.body.product_idProduct = id,
+                req.body.product_idProduct = pid,
                 req.body.userID = user
             ];
 

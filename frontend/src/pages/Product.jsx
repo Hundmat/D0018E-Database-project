@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
 import { CiHeart } from "react-icons/ci";
@@ -27,15 +28,42 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
   const [categories, setCategories] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  const addToCart = async () => {
-    try {
-      await axios.post(
-        `http://localhost:8800/product/addToCart/${location.state.pid}`
-      );
+  const navigate = useNavigate();
 
-      console.log("Post request has been sent to the server!");
+  const addToCart = async () => {
+
+    var loggedIn = false;
+    var userID = null;
+
+    // Check if the user is logged in
+    try {
+      const res = await axios.get("http://localhost:8800/auth");
+      if (res.data.Status === "Success") {
+        userID = res.data.userId;
+        loggedIn = true;
+      }
     } catch (err) {
       console.log(err);
+    }
+    
+    if (loggedIn) {
+      // If the user is logged in, send add to cart request to the server
+      try {
+        await axios.post(
+          `http://localhost:8800/product/addToCart/${userID}/${location.state.pid}`
+        );
+
+        console.log("Post request has been sent to the server!");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      // else, redirect the user to the login page
+      try {
+        await navigate("/signup");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
