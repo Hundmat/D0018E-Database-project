@@ -41,8 +41,10 @@ const Signup = ({ onLogin }) => {
                 password
             });
             const isAdmin = response.data.isAdmin;
+            const userId = response.data.userId;
             onLogin(isAdmin===1);
-            navigate("/");
+            navigate('/profile');
+
         } catch (error) {
             if (error.response) {
                 console.log("Fel lösenord bre", error.response.data)

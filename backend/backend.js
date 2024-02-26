@@ -469,6 +469,30 @@ app.post("/newCat", (req, res) => {
     });
 });
 
+app.get("/getOrder", (req, res) => {
+    const userID = req.query.userID; // Retrieve userID from query parameters
+    const q = "SELECT * FROM `e-commerce`.order WHERE customer_idCustomer = ?";
+    db.query(q, [userID], (err, data) => {
+        if (err) {
+            console.error("Error fetching cart:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+        return res.json(data);
+    });
+});
+
+app.get("/getOrders", (req, res) => {
+    const tableName = req.query.tableName;
+    const q = `SELECT * FROM \`e-commerce\`.\`${tableName}\``; // Enclose schema and table names in backticks
+    db.query(q, (err, data) => {
+        if (err) {
+            console.error("Error fetching orders:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+        return res.json(data);
+    });
+});
+
 
 
 // Start API

@@ -1,5 +1,5 @@
 // Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -19,14 +19,20 @@ import Profile from './Components/Profile/Profile.jsx';
 import Navbar from './Components/Navbar/Navbar';
 // Stylesheets
 import "./stylesheets/style.css";
-import Login from './pages/Login.jsx';
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
+  useEffect(() => {
+    // Retrieve isAdmin from localStorage on component mount
+    const isAdminStored = localStorage.getItem('isAdmin');
+    setIsAdmin(isAdminStored === 'true');
+  }, []);
+
   const handleLogin = (adminStatus) => {
     console.log("adminStatus: ", adminStatus);
     setIsAdmin(adminStatus);
+    localStorage.setItem('isAdmin', adminStatus.toString());
   }
 
 
