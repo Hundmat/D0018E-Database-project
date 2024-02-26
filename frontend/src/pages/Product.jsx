@@ -12,9 +12,10 @@ import {StarRating} from "../Components/Starrating/StarRating";
 
 const Product = ({ pid, id, catID, cat, averageRating, average }) => {
   const location = useLocation();
+  const [stock, setStock] = useState(0);
 
   const availability = (stock) => {
-    if (stock === 0) {
+    if (stock <= 0) {
       return "Item sold out";
     } else if (stock < 10) {
       return "Almost out of stock";
@@ -72,7 +73,9 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
         const res = await axios.get(
           `http://localhost:8800/product/${location.state.pid}`
         );
+
         setProduct(res.data);
+        setStock(res.data[0].stock);
       } catch (err) {
         console.log(err);
       }
@@ -126,7 +129,7 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
                 <h4>{p.size}</h4>
               </div>
               <div className="product-buttons-container">
-                <button className="product-cart-button" onClick={addToCart}>
+                <button className="product-cart-button" onClick={addToCart} disabled={stock <= 0}>
                   Add to cart
                 </button>
               </div>

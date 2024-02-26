@@ -300,9 +300,23 @@ app.post("/signup", async (req, res) => {
             console.error("Sorry det där gick inge bra", err);
             return res.status(500).json({ error: "Nåt gick snett" });
         }
+        const id = data.insertId;
+        addCustomer(id);
         return res.json("Sign Up Successful")
     })
 })
+
+const addCustomer = async (id) => {
+    try {
+        const q = "INSERT INTO customer (idCustomer) VALUES (?)"; // Assuming 'customer' is your table name
+        db.query(q, [id]); // Assuming you're using a database connection named 'db'
+        console.log("Customer added successfully");
+    } catch (error) {
+        console.error("Failed to add customer:", error);
+        // Handle error appropriately, you might want to throw the error or return a meaningful value
+    }
+}
+
 
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -477,6 +491,7 @@ app.get("/getOrder", (req, res) => {
             console.error("Error fetching cart:", err);
             return res.status(500).json({ error: "Internal Server Error" });
         }
+        console.log(data);
         return res.json(data);
     });
 });
