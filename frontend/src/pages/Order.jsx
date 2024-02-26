@@ -167,7 +167,9 @@ const Order = () => {
 
       };
       removeProducts(jsonData);
-
+      console.log("order id: ", formData.orderID);
+      const saved_orderID = formData.orderID;
+      console.log("saved id: ", saved_orderID);
       setFormData({
         userID: '',
         orderID: '',
@@ -182,7 +184,9 @@ const Order = () => {
         cvv: ''
       });
       setFormCart([]);
-      navigate("/");
+      await navigate(`/post`, {
+        state: { order_ID: saved_orderID},
+      });
 
 
     } catch (error){
@@ -233,7 +237,6 @@ const Order = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

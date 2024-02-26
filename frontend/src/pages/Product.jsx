@@ -54,6 +54,7 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
         );
 
         console.log("Post request has been sent to the server!");
+        await navigate("/cart");
       } catch (err) {
         console.log(err);
       }

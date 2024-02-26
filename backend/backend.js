@@ -101,7 +101,7 @@ app.get("/browse", (req, res) => {
 
 
 app.post("/order", (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     
     const q = `CREATE TABLE IF NOT EXISTS \`${req.body.orderID}\` (orderID INT AUTO_INCREMENT PRIMARY KEY, fullName VARCHAR(50), email VARCHAR(100), address VARCHAR(100), city VARCHAR(50), country VARCHAR(50), zip VARCHAR(50), productID INT, quantity INT,price DECIMAL(6,2), FOREIGN KEY (productID) REFERENCES product(idProduct))` ;
     
@@ -119,7 +119,7 @@ app.post("/order", (req, res) => {
         req.body.country,
         req.body.zip,
     ];
-    console.log(values);
+    //console.log(values);
     db.query(c, [values], (err, insertResult) => {
         if (err) return res.json(err);
         
@@ -148,7 +148,7 @@ app.post("/orderProducts", (req, res) => {
             JSON.stringify(req.body[i].quantity),
             req.body[i].price
         ];
-        console.log(values);
+        //console.log(values);
     
         db.query(q, [values], (err, data) => {
             if (err) return res.json(err);
@@ -207,7 +207,7 @@ app.post('/product/addToCart/:uid/:pid', (req, res) => {
 
             db.query(q, values, (err, data) => {
                 if (err) return res.json(err);
-                console.log("updated");
+                //console.log("updated");
                 return res.json("Product quantity has been updated");
             });
         } else {
@@ -222,7 +222,7 @@ app.post('/product/addToCart/:uid/:pid', (req, res) => {
 
             db.query(q, [values], (err, data) => {
                 if (err) return res.json(err);
-                console.log("inserted");
+                //console.log("inserted");
                 return res.json("Product has been added to cart");
             })
         }
@@ -257,7 +257,7 @@ app.post("/products", (req, res) => {
 
 
     const q = "SELECT * FROM product WHERE idProduct = (?)";
-    console.log(req.body.id)
+    //console.log(req.body.id)
     const values = [
         req.body.id
     ]
@@ -270,7 +270,7 @@ app.post("/products", (req, res) => {
 
 app.post("/cart", (req, res) => {
     const q = "SELECT * FROM cart WHERE userID = ?";
-    console.log(req.body.userID)
+    //console.log(req.body.userID)
     const userID = req.body.userID; // Assuming e contains the userID
     db.query(q, [userID], (err, data) => {
         if (err) {
@@ -410,7 +410,7 @@ app.post("/newProduct", (req, res) => {
 });
 
 app.post("/removeProduct", (req, res) => {
-    console.log(req.body.e.PID);
+    //console.log(req.body.e.PID);
     if (req.body.e.PID === "null"){
         const q = "DELETE FROM cart WHERE userID = ? ";
         const values = [req.body.e.userID];
@@ -436,7 +436,7 @@ app.post("/removeProduct", (req, res) => {
 
 
 app.post("/updateStock", (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     
     const c = "SELECT stock FROM `e-commerce`.product WHERE idProduct = ?";
     const values = [req.body.idProduct];
@@ -448,7 +448,7 @@ app.post("/updateStock", (req, res) => {
         }
        
         tmpStock = parseInt(data[0].stock)-parseInt(req.body.removeAmount);
-        console.log(tmpStock);
+        //console.log(tmpStock);
 
         const q = "UPDATE `e-commerce`.product SET stock = ? WHERE idProduct = ?";
         const values2 = [tmpStock, req.body.idProduct];
@@ -474,7 +474,7 @@ app.post("/newCat", (req, res) => {
         req.body.typeCat,
         product_productRelation
     ]
-    console.log(values)
+    //console.log(values)
 
     db.query(query, [values], (err, data) => {
 
@@ -507,6 +507,53 @@ app.get("/getOrders", (req, res) => {
         return res.json(data);
     });
 });
+
+
+app.post("/post/:oid", (req, res) => {
+
+    const orderID = req.params.oid; // order ID
+
+    const ids = []; // Product IDs from order
+
+    // Get product IDs from selected order
+    const q = `SELECT productID FROM \`e-commerce\`.\`${orderID}\``;
+    db.query(q, (err, data) => {
+        if (err) {
+            console.error("Error fetching order:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+        } else { 
+            data.forEach((id) => {
+                if (id.productID !== null) {
+                    ids.push(id.productID.toString());
+                }
+            });
+            const items = getProducts(ids);
+            //console.log("items: ", items);
+        }
+    });
+});
+
+const getProducts = (ids) => {
+
+    console.log(ids);
+
+    const prods = [];
+
+    // Get all products from order IDs
+    const p = `SELECT * FROM product WHERE idProduct IN (${ids})`;
+    db.query(p, ids, (err, data) => {
+        if (err) {
+            console.error("Error fetching order:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+        } else { 
+            data.forEach((prod) => {
+                prods.push(prod);
+            });
+        }
+        console.log(prods);
+        return prods;
+    });
+}
 
 
 

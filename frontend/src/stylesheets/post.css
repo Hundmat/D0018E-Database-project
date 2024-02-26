@@ -1,0 +1,11 @@
+* {
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+  }
+  
+.body{
+    background: linear-gradient(
+      var(--bg1),
+      var(--bg2)
+    );
+  }

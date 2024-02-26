@@ -14,6 +14,7 @@ import Product from './pages/Product';
 import Signup from './pages/Signup';
 import Cart from './pages/Cart';
 import Order from './pages/Order';
+import Post from './pages/Post';
 
 import Profile from './Components/Profile/Profile.jsx';
 import Navbar from './Components/Navbar/Navbar';
@@ -50,6 +51,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/post" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </div>
