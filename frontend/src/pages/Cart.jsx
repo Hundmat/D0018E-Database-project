@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import '../stylesheets/cart.css';
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
@@ -7,9 +6,10 @@ import { BsCartX } from "react-icons/bs";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-async function getCart() {
+async function getCart(formdata) {
+  console.log(formdata);
   try {
-    const response = await axios.get("http://localhost:8800/cart");
+    const response = await axios.post("http://localhost:8800/cart",{userID: formdata});
     console.log(JSON.parse(JSON.stringify(response.data)));
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
@@ -17,6 +17,8 @@ async function getCart() {
     return [];
   }
 };
+
+
 
 async function getCat(e) {
   try {
@@ -41,7 +43,7 @@ async function getProducts(e) {
 async function removeProducts(e) {
   try {
     console.log(e);
-    const response = await axios.post("http://localhost:8800/removeProduct", { id: e });
+    const response = await axios.post("http://localhost:8800/removeProduct", { e });
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -58,6 +60,7 @@ async function removeProducts(e) {
  */
 const Cart = () => {
   // State variables
+  const [user, setUser] = useState(""); // [1]
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -75,11 +78,28 @@ const Cart = () => {
     setCart((cart) => [...cart, { ...product, quantity: product.quantity }]);
   };
 
+  useEffect(() => {
+    axios.get('http://localhost:8800/auth', { withCredentials: true })
+      .then(res => {
+        if (res.data.Status === "Success") {
+          fetch(res.data.userId);
+          setUser(res.data.userId);
+        } else {
+          console.log("Error fetching user:", res.data.Message);
+        }
+      })
+    
+  }, []);
+
+
   /**
    * Fetches cart data from the server and updates the products state.
    */
-  const fetch = async () => {
-    const importData = await getCart();
+  const fetch = async (userID) => {
+    
+  
+    console.log(userID);
+    const importData = await getCart(userID);
     console.log(importData);
     const updatedProducts = await Promise.all(
       importData.map(async (item) => {
@@ -103,10 +123,10 @@ const Cart = () => {
     setProducts(updatedProducts);
   };
 
-  // Fetch cart data on component mount
-  useEffect(() => {
-    fetch();
-  }, []);
+  const handleClick = () => {
+    navigate("/order");
+  };
+  
 
   // Add products to cart on products state change
   useEffect(() => {
@@ -121,12 +141,17 @@ const Cart = () => {
   const decreaseQuantity = async (product) => {
     const existingProductIndex = cart.findIndex((item) => item.id === product.id);
 
+    const jsonData = {
+      PID: product.PID,
+      userID: user,
+      all: "1"
+    };
     if (existingProductIndex !== -1) {
       const updatedCart = [...cart];
       if (updatedCart[existingProductIndex].quantity > 1) {
         updatedCart[existingProductIndex].quantity -= 1;
       } else {
-        await removeProducts(product.PID);
+        await removeProducts(jsonData);
         updatedCart.splice(existingProductIndex, 1);
       }
       setCart(updatedCart);
@@ -159,6 +184,9 @@ const Cart = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
+  
+
+
   return (
     <div className='cart-body'>
       
@@ -180,7 +208,7 @@ const Cart = () => {
             <div>
               <div className="cart-cost">
                 <p className="cart-cost-text">Total: ${calculateTotal()}</p>
-                <button className='cart-button' onClick={() => Navigate(`/order`)}>Checkout</button>
+                <button className='cart-button' onClick={handleClick}>Checkout</button>
               </div>
               {cart.length > 0 && (
                 <ul className="cart-list">

@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../stylesheets/order.css';
+import { useNavigate } from "react-router-dom";
 
+
+async function getProducts(e) {
+  try {
+    const response = await axios.post("http://localhost:8800/products", { id: e });
+    
+    return response.data[0].price;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+};
 
 async function postOrder(formData) {
   try {
@@ -8,6 +21,28 @@ async function postOrder(formData) {
     return 200;
   } catch (error) {
     console.error("Error posting order:", error);
+    return [];
+  }
+}
+
+async function removeProducts(e) {
+  try {
+    console.log(e);
+    const response = await axios.post("http://localhost:8800/removeProduct", { e });
+    return JSON.parse(JSON.stringify(response.data));
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+};
+
+async function updateStock(stock) {
+  console.log(stock);
+  try {
+    await axios.post("http://localhost:8800/updateStock", stock);
+    return 200;
+  } catch (error) {
+    console.error("Error updating stock:", error);
     return [];
   }
 }
@@ -33,8 +68,10 @@ async function updateOrder(formCart,orderID) {
 }
 
 const Order = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    userID: '1',
+    userID: '',
     orderID: '',
     fullName: '',
     email: '',
@@ -50,19 +87,40 @@ const Order = () => {
   const [formCart, setFormCart] = useState([]);
 
   useEffect(() => {
-    fetchCart("user1");
-  }, []);
+    console.log("Fetching user");
+    axios.get('http://localhost:8800/auth', { withCredentials: true })
+      .then(res => {
+        if (res.data.Status === "Success") {
+          fetchCart(res.data.userId);
+          setFormData(prevState => ({
+            ...prevState,
+            userID: res.data.userId // Set the same orderID in formData
+          }));
+        } else {
+          console.log("Error fetching user:", res.data.Message);
+        }
+      })
+  }, [])
+    
+
 
   const fetchCart = async (userID) => {
     try {
       const response = await getCart(userID);
+
       const orderID = Math.floor(Math.random() * 1000000000); // Generate orderID
-      const updatedFormCart = response.map(cartItem => ({
-        orderID: orderID,
-        quantity: cartItem.quantity,
-        productID: cartItem.productID,
-        price: "100"
+
+      const updatedFormCart = await Promise.all(response.map(async (cartItem) => {
+          const price = await getProducts(cartItem.productID);
+          return {
+              orderID: orderID,
+              quantity: cartItem.quantity,
+              productID: cartItem.productID,
+              price: price
+          };
       }));
+      console.log(updatedFormCart);
+
       setFormData(prevState => ({
         ...prevState,
         orderID: orderID // Set the same orderID in formData
@@ -83,14 +141,33 @@ const Order = () => {
     }));
   };
 
+  const calculateTotal = () => {
+    return formCart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     
     await postOrder(formData);
     try {
-      console.log(formCart);
       await updateOrder(formCart);
+      
+      formCart.forEach(async (item) => {
+        const stock = {
+          idProduct: item.productID,
+          removeAmount: item.quantity
+        };
+        updateStock(stock);
+      });
+
+      const jsonData = {
+        PID: "null",
+        userID: formData.userID,
+
+      };
+      removeProducts(jsonData);
+
       setFormData({
         userID: '',
         orderID: '',
@@ -106,6 +183,9 @@ const Order = () => {
       });
       setFormCart([]);
       alert('Order submitted successfully');
+      navigate("/home");
+
+
     } catch (error){
       alert('Failed to submit order');
     }
@@ -117,7 +197,6 @@ const Order = () => {
       <div className='order-middle'>
         <h1 className='order-checkout'>Checkout</h1>
         <div className='order-center'>
-
           <div className='order-left'>
             <h1 className='order-sum'>Information</h1>
             <form className="order-form" onSubmit={handleSubmit}>
@@ -148,8 +227,8 @@ const Order = () => {
             <h1 className='order-sum'>Order Summary</h1>
             <div className='order-right-inner'>
               <div className='order-line'></div>
-              <h4 className="order-order">Order value: 1000 kr</h4>
-              <h4 className="order-order">Delivery Cost: 29.00 kr</h4>
+              <h4 className="order-order">Order value: ${calculateTotal()}</h4>
+              <h4 className="order-order">Delivery Cost: $ 3</h4>
               <div className='order-line'></div>
             </div>
           </div>

@@ -186,7 +186,7 @@ app.post('/product/addToCart/:id', (req, res) => {
 
     // params
     const id = req.params.id;
-    const user = "user1" // req.session.user for production
+    const user = 2; // req.session.user for production
     var quant;
 
     // check if product exists
@@ -274,7 +274,7 @@ app.post("/products", (req, res) => {
 
 app.post("/cart", (req, res) => {
     const q = "SELECT * FROM cart WHERE userID = ?";
-    //console.log(req.body.userID)
+    console.log(req.body.userID)
     const userID = req.body.userID; // Assuming e contains the userID
     db.query(q, [userID], (err, data) => {
         if (err) {
@@ -341,7 +341,7 @@ app.post("/login", async (req, res) => {
                     return res.status(500).json({ error: "Error updating token in the database" });
                 }
 
-                res.cookie('token', token, { httpOnly: true, sameSite: 'None' });
+                res.cookie('token', token, { httpOnly: true, sameSite: true });
 
                 return res.json({ message: "Login successful", isAdmin});
             });
@@ -400,17 +400,56 @@ app.post("/newProduct", (req, res) => {
 });
 
 app.post("/removeProduct", (req, res) => {
-    const q = "DELETE FROM cart WHERE product_idProduct = ?";
-    const values = [req.body.id];
+    console.log(req.body.e.PID);
+    if (req.body.e.PID === "null"){
+        const q = "DELETE FROM cart WHERE userID = ? ";
+        const values = [req.body.e.userID];
+        db.query(q, values, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json(err);
+            }
+            return res.json("Product has been removed successfully");
+        });
+    } else{
+        const q = "DELETE FROM cart WHERE productID = ? AND userID = ? ";
+        const values = [req.body.e.PID, req.body.e.userID];
+        db.query(q, values, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json(err);
+            }
+            return res.json("Product has been removed successfully");
+        });
+    };
+});
 
 
-    db.query(q, values, (err, data) => {
+app.post("/updateStock", (req, res) => {
+    console.log(req.body);
+    
+    const c = "SELECT stock FROM `e-commerce`.product WHERE idProduct = ?";
+    const values = [req.body.idProduct];
+    var tmpStock;
+    
+    db.query(c, values, (err, data) => {
         if (err) {
             console.log(err);
-            return res.json(err);
         }
-        return res.json("Product has been removed successfully");
-    });
+       
+        tmpStock = parseInt(data[0].stock)-parseInt(req.body.removeAmount);
+        console.log(tmpStock);
+
+        const q = "UPDATE `e-commerce`.product SET stock = ? WHERE idProduct = ?";
+        const values2 = [tmpStock, req.body.idProduct];
+        db.query(q, values2, (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json(err);
+            }
+            return res.json("Stock has been updated successfully");
+        });
+    }); 
 });
 
 
