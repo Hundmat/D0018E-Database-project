@@ -182,8 +182,7 @@ const Order = () => {
         cvv: ''
       });
       setFormCart([]);
-      alert('Order submitted successfully');
-      navigate("/home");
+      navigate("/");
 
 
     } catch (error){
