@@ -513,48 +513,28 @@ app.post("/post/:oid", (req, res) => {
 
     const orderID = req.params.oid; // order ID
 
-    const ids = []; // Product IDs from order
+    // Get products from selected order
+    const q = `
+    SELECT product.idProduct, product.name, product.price, product.image, product.sex, product.size, category.brand
+    FROM product 
+    INNER JOIN category 
+    ON product.productRelation = category.product_productRelation
+    WHERE idProduct IN (
+        SELECT productID 
+        FROM \`e-commerce\`.\`${orderID}\` 
+        WHERE productID IS NOT NULL
+    );`;
 
-    // Get product IDs from selected order
-    const q = `SELECT productID FROM \`e-commerce\`.\`${orderID}\``;
+
     db.query(q, (err, data) => {
         if (err) {
             console.error("Error fetching order:", err);
             return res.status(500).json({ error: "Internal Server Error" });
         } else { 
-            data.forEach((id) => {
-                if (id.productID !== null) {
-                    ids.push(id.productID.toString());
-                }
-            });
-            const items = getProducts(ids);
-            //console.log("items: ", items);
+            return res.json(data);
         }
     });
 });
-
-const getProducts = (ids) => {
-
-    console.log(ids);
-
-    const prods = [];
-
-    // Get all products from order IDs
-    const p = `SELECT * FROM product WHERE idProduct IN (${ids})`;
-    db.query(p, ids, (err, data) => {
-        if (err) {
-            console.error("Error fetching order:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-        } else { 
-            data.forEach((prod) => {
-                prods.push(prod);
-            });
-        }
-        console.log(prods);
-        return prods;
-    });
-}
-
 
 
 // Start API
