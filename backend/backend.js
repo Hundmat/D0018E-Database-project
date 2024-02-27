@@ -244,28 +244,23 @@ app.post('/post/addReviews', (req, res) => {
 
     const user = req.body.username;
 
-    console.log("userID:", user);
+    const q = "INSERT INTO userreviews (`comment`,`rating`,`productID`,`userName`) VALUES (?,?,?,?)";
 
     for (const [key, value] of Object.entries(req.body.reviews)) {
-        console.log(`productID: ${key} - Comment: ${value} - rating: ${req.body.ratings[key]}`);
+        
+        const values = [
+            value,
+            parseFloat(req.body.ratings[key]),
+            parseInt(key),
+            user
+        ];
+
+        db.query(q, values, (err, data) => {
+            if (err) return res.json(err);
+        });
     }
-    
-    /*
 
-    const q = "INSERT INTO userreviews (`comment`, `rating`, `productID`, `userName`) VALUES (?)";
-    const values = [
-        req.body.comment, 
-        req.body.rating, 
-        req.body.productID,
-        req.body.userName
-    ];
-
-    db.query(q, [values], (err, data) => {
-        if (err) return res.json(err);
-        return res.json("Review has been added");
-    });
-    
-    */
+    return res.json("reviews added successfully!");
 });
 
 // #endregion Browse/Product

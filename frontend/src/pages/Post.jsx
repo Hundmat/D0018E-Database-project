@@ -27,7 +27,7 @@ const Post = ({ order_ID, userName }) => {
   }, [location]);
 
   const navigate = useNavigate();
-  
+
   const handleRatings = (e) => {
     setRatings((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     console.log(ratings);
@@ -35,7 +35,6 @@ const Post = ({ order_ID, userName }) => {
 
   const handleChange = (e) => {
     setReviews((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    //console.log(e.target.name, reviews);
   };
 
   const handleSubmit = async () => {
@@ -57,8 +56,12 @@ const Post = ({ order_ID, userName }) => {
       // send reviews to backend
       try {
         await axios.post(`http://localhost:8800/post/addReviews`, {
-          reviews, username, ratings
+          reviews,
+          username,
+          ratings,
         });
+
+        await navigate("/");
       } catch (err) {
         console.log(err);
       }
@@ -76,7 +79,9 @@ const Post = ({ order_ID, userName }) => {
     <div className="body">
       <div className="post">
         <div className="post-container">
-          <h1>Order {location.state.order_ID} - {location.state.userName}</h1>
+          <h1>
+            Order {location.state.order_ID} - {location.state.userName}
+          </h1>
           <div className="post-products-wrapper">
             <div className="post-products">
               {products.map((p) => (
@@ -96,7 +101,12 @@ const Post = ({ order_ID, userName }) => {
                     name={p.idProduct}
                     id="review"
                   ></textarea>
-                  <input type="number" placeholder="rating" onChange={handleRatings} name={p.idProduct}></input>
+                  <input
+                    type="number"
+                    placeholder="rating"
+                    onChange={handleRatings}
+                    name={p.idProduct}
+                  ></input>
                 </div>
               ))}
             </div>
