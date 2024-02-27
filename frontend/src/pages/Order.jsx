@@ -167,9 +167,9 @@ const Order = () => {
 
       };
       removeProducts(jsonData);
-      console.log("order id: ", formData.orderID);
       const saved_orderID = formData.orderID;
-      console.log("saved id: ", saved_orderID);
+      const saved_userName = formData.fullName;
+      console.log(saved_userName);
       setFormData({
         userID: '',
         orderID: '',
@@ -185,7 +185,7 @@ const Order = () => {
       });
       setFormCart([]);
       await navigate(`/post`, {
-        state: { order_ID: saved_orderID},
+        state: { order_ID: saved_orderID, userName: saved_userName}
       });
 
 

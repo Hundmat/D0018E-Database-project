@@ -43,3 +43,11 @@
   min-height: 150px;
   width: 300px;
 }
+
+.post-submitButton {
+  margin-top: 20px;
+  width: 100px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+}

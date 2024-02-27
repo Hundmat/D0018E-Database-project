@@ -5,11 +5,12 @@ import { useLocation } from "react-router";
 
 import "../stylesheets/post.css";
 
-const Post = ({ order_ID, oid }) => {
+const Post = ({ order_ID, userName }) => {
   const location = useLocation();
 
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [ratings, setRatings] = useState([]);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -18,7 +19,6 @@ const Post = ({ order_ID, oid }) => {
           `http://localhost:8800/post/${location.state.order_ID}`
         );
         setProducts(res.data);
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -26,20 +26,57 @@ const Post = ({ order_ID, oid }) => {
     fetchOrder();
   }, [location]);
 
-  const handleChange = (e) => {
-    setReviews((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(e.target.name, reviews);
+  const navigate = useNavigate();
+  
+  const handleRatings = (e) => {
+    setRatings((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(ratings);
   };
 
-  const handleSubmit = () => {
-    console.log(reviews);
+  const handleChange = (e) => {
+    setReviews((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    //console.log(e.target.name, reviews);
+  };
+
+  const handleSubmit = async () => {
+    var loggedIn = false;
+    const username = location.state.userName;
+
+    // Check if the user is logged in
+    try {
+      const res = await axios.get("http://localhost:8800/auth");
+      if (res.data.Status === "Success") {
+        loggedIn = true;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    if (loggedIn) {
+      // If the user is logged in, send add to cart request to the server
+      // send reviews to backend
+      try {
+        await axios.post(`http://localhost:8800/post/addReviews`, {
+          reviews, username, ratings
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      // else, redirect the user to the login page
+      try {
+        await navigate("/signup");
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   return (
     <div className="body">
       <div className="post">
         <div className="post-container">
-          <h1>Order {location.state.order_ID}</h1>
+          <h1>Order {location.state.order_ID} - {location.state.userName}</h1>
           <div className="post-products-wrapper">
             <div className="post-products">
               {products.map((p) => (
@@ -59,11 +96,12 @@ const Post = ({ order_ID, oid }) => {
                     name={p.idProduct}
                     id="review"
                   ></textarea>
+                  <input type="number" placeholder="rating" onChange={handleRatings} name={p.idProduct}></input>
                 </div>
               ))}
             </div>
           </div>
-          <button className="submitButton" onClick={handleSubmit}>
+          <button className="post-submitButton" onClick={handleSubmit}>
             Submit
           </button>
         </div>

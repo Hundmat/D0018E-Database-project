@@ -240,6 +240,34 @@ app.get('/reviews/:id', (req, res) => {
     });
 });
 
+app.post('/post/addReviews', (req, res) => {
+
+    const user = req.body.username;
+
+    console.log("userID:", user);
+
+    for (const [key, value] of Object.entries(req.body.reviews)) {
+        console.log(`productID: ${key} - Comment: ${value} - rating: ${req.body.ratings[key]}`);
+    }
+    
+    /*
+
+    const q = "INSERT INTO userreviews (`comment`, `rating`, `productID`, `userName`) VALUES (?)";
+    const values = [
+        req.body.comment, 
+        req.body.rating, 
+        req.body.productID,
+        req.body.userName
+    ];
+
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("Review has been added");
+    });
+    
+    */
+});
+
 // #endregion Browse/Product
 
 // #region Cart
