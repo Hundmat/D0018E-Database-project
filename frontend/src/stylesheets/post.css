@@ -51,3 +51,16 @@
   border: none;
   cursor: pointer;
 }
+
+.post-star-rating-container {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.post-star {
+  cursor: pointer;
+  display: block;
+  float: left;
+}

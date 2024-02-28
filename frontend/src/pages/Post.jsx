@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router";
 
+import { FaStar, FaRegStar } from "react-icons/fa";
+
 import "../stylesheets/post.css";
 
 const Post = ({ order_ID, userName }) => {
@@ -24,17 +26,18 @@ const Post = ({ order_ID, userName }) => {
       }
     };
     fetchOrder();
+
   }, [location]);
 
   const navigate = useNavigate();
 
-  const handleRatings = (e) => {
-    setRatings((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(ratings);
-  };
-
   const handleChange = (e) => {
     setReviews((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleStars = (e) => {
+    setRatings((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log("stars:", ratings);
   };
 
   const handleSubmit = async () => {
@@ -58,7 +61,7 @@ const Post = ({ order_ID, userName }) => {
         await axios.post(`http://localhost:8800/post/addReviews`, {
           reviews,
           username,
-          ratings,
+          ratings
         });
 
         await navigate("/");
@@ -80,7 +83,7 @@ const Post = ({ order_ID, userName }) => {
       <div className="post">
         <div className="post-container">
           <h1>
-            Order {location.state.order_ID} - {location.state.userName}
+            Order {location.state.order_ID}
           </h1>
           <div className="post-products-wrapper">
             <div className="post-products">
@@ -101,12 +104,13 @@ const Post = ({ order_ID, userName }) => {
                     name={p.idProduct}
                     id="review"
                   ></textarea>
-                  <input
-                    type="number"
-                    placeholder="rating"
-                    onChange={handleRatings}
-                    name={p.idProduct}
-                  ></input>
+                  <section className="post-star-rating-container">
+                    <input type="radio" className="post-star" value={1} name={p.idProduct} onClick={handleStars} />
+                    <input type="radio" className="post-star" value={2} name={p.idProduct} onClick={handleStars} />
+                    <input type="radio" className="post-star" value={3} name={p.idProduct} onClick={handleStars} />
+                    <input type="radio" className="post-star" value={4} name={p.idProduct} onClick={handleStars} />
+                    <input type="radio" className="post-star" value={5} name={p.idProduct} onClick={handleStars} />
+                  </section>
                 </div>
               ))}
             </div>
