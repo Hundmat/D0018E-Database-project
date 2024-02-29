@@ -107,21 +107,25 @@ const Cart = () => {
         //console.log(tempProduct,"tempProduct");
         const tempCat = await getCat(tempProduct[0].productRelation);
         if (tempProduct[0].stock === 0) {
-          const jsonData = { PID: tempProduct[0].idProduct, userID: user };
+          const jsonData = {
+            PID: tempProduct[0].idProduct,
+            userID: userID,
+          };
           await removeProducts(jsonData);
+        }else{
+          return {
+            id: item.idCart,
+            quantity: item.quantity,
+            name: tempProduct[0].name,
+            price: tempProduct[0].price,
+            image: tempProduct[0].image,
+            PID: tempProduct[0].idProduct,
+            size: tempProduct[0].size,
+            sex: tempProduct[0].sex,
+            stock: tempProduct[0].stock,
+            brand: tempCat[0].brand
+          };
         }
-        return {
-          id: item.idCart,
-          quantity: item.quantity,
-          name: tempProduct[0].name,
-          price: tempProduct[0].price,
-          image: tempProduct[0].image,
-          PID: tempProduct[0].idProduct,
-          size: tempProduct[0].size,
-          sex: tempProduct[0].sex,
-          stock: tempProduct[0].stock,
-          brand: tempCat[0].brand,
-        };
       })
     );
     setProducts(updatedProducts);

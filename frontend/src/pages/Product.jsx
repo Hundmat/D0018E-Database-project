@@ -52,7 +52,6 @@ const Product = ({ pid, id, catID, cat, averageRating, average }) => {
         await axios.post(
           `http://localhost:8800/product/addToCart/${userID}/${location.state.pid}`
         );
-
         console.log("Post request has been sent to the server!");
         await navigate("/cart");
       } catch (err) {

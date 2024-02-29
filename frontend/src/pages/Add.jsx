@@ -81,8 +81,8 @@ const Add = () => {
                     type="text"
                     placeholder="description"
                     onChange={handleChange}
-                    name="desc"
-                    id="desc"
+                    name="prodDescription"
+                    id="prodDescription"
                 />
                 <input
                     type="number"
